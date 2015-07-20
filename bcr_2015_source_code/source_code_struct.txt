@@ -1,0 +1,21 @@
+bcr_2015
+	|
+	|--lib
+	|	|--inc
+	|	|	|--common.h				-	define common macro and GPIO 
+	|	|	|--hardware_config.h	-	hearder file for hardware_config.c	
+	|	|	|--hardware_feature.h	-	header file for hardware_feature.c
+	|	|
+	|	|--src
+	|		|--hardware_config.c	-	initializer hardware (GPIO, Timer, PWM, UART)
+	|		|--hardware_feature.c	-	implement  function for led_ bug, key, switch, motor, servo, interrupt, uart..
+	|	
+	|-- user
+	|	|--unit_test
+	|	|	|--unit_test.h		-	heard file for unit_test.c
+	|	|	|--unit_test.c		-	perform test case for led bug, key, switch, motor, servor, interrupt, uart..
+	|	|	|--unit_test_main.c	-	main file of unit test
+	|	|
+	|	|--main.c		-	main file of project
+	|
+	|-- soruce_code_struct.txt
