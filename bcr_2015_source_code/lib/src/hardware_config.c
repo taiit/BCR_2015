@@ -7,12 +7,51 @@
 #include "../inc/hardware_config.h"
 
 
-bool bInitProgram(){
-	bool ret = false;
+void vInitProgram(){
+	//disable local interrupt
+	cli();
+	
 	//IO initialize
 	LED_BUB_INIT;		//Led debug is output
 	KEY_INIT;			//Key is input
 	SWITCH_INIT;		//Switch is input
+	MOTOR_LEFT_INIT;
+	MOTOR_RIGHT_INIT;
+	//Timer and PWM
+	vInitTimer0();
+	vInitTimer1();
+	vInitTimer2();	
 	
-	return ret;
+	//enable local interrupt
+	sei();
+}
+void vInitTimer0(){
+	
+}
+void vInitTimer1(){
+	/**
+	       Timer 1.
+				PWM mode 14: WGM1[3:0] = 1110 
+				Non-inverting: COM1[1:0] = 10
+				F = 12Mhz
+				T = 15ms
+				=> prescaler = 8.
+				ICR1 = 15ms / ((1/12Mhz)*8) = 22500	
+	*/
+	TCCR1A = (1 << WGM11) | (1 << COM1A1) | (1 << COM1B1);
+	TCCR1B = (1 << WGM13) | (1 << WGM12) | (1 << CS11);
+	ICR1 = 22500;
+	OCR1B = 2000;
+}
+void vInitTimer2(){
+	/**
+	       Timer 2.
+				PWM mode 3: WGM2[1:0] = 11
+				Non-inverting: COM2[1:0] = 10
+				F = 12Mhz
+				T = 5.5ms
+				=> prescaler = 256.
+	*/
+	TCCR2 = (1 << WGM21) | (1 << WGM20) | (1 << COM21) | (1 << CS22) | (1 << CS21);
+	OCR2 = 100;
 }

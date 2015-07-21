@@ -1,0 +1,265 @@
+
+bcr_2015.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000014a  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  0000014a  000001be  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000001be  2**0
+                  CONTENTS, READONLY
+  3 .debug_aranges 000000d0  00000000  00000000  000001ee  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   0000052a  00000000  00000000  000002be  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 00000376  00000000  00000000  000007e8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   000004be  00000000  00000000  00000b5e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  00000114  00000000  00000000  0000101c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    000002e4  00000000  00000000  00001130  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_loc    00000113  00000000  00000000  00001414  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000080  00000000  00000000  00001527  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 91 00 	call	0x122	; 0x122 <main>
+  64:	0c 94 a3 00 	jmp	0x146	; 0x146 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <vInitTimer1>:
+				F = 12Mhz
+				T = 15ms
+				=> prescaler = 8.
+				ICR1 = 15ms / ((1/12Mhz)*8) = 22500	
+	*/
+	TCCR1A = (1 << WGM11) | (1 << COM1A1) | (1 << COM1B1);
+  6c:	82 ea       	ldi	r24, 0xA2	; 162
+  6e:	8f bd       	out	0x2f, r24	; 47
+	TCCR1B = (1 << WGM13) | (1 << WGM12) | (1 << CS11);
+  70:	8a e1       	ldi	r24, 0x1A	; 26
+  72:	8e bd       	out	0x2e, r24	; 46
+	ICR1 = 22500;
+  74:	84 ee       	ldi	r24, 0xE4	; 228
+  76:	97 e5       	ldi	r25, 0x57	; 87
+  78:	97 bd       	out	0x27, r25	; 39
+  7a:	86 bd       	out	0x26, r24	; 38
+	OCR1B = 2000;
+  7c:	80 ed       	ldi	r24, 0xD0	; 208
+  7e:	97 e0       	ldi	r25, 0x07	; 7
+  80:	99 bd       	out	0x29, r25	; 41
+  82:	88 bd       	out	0x28, r24	; 40
+  84:	08 95       	ret
+
+00000086 <vInitTimer2>:
+				Non-inverting: COM2[1:0] = 10
+				F = 12Mhz
+				T = 15ms
+				=> prescaler = 256.
+	*/
+	TCCR2 = (1 << WGM21) | (1 << WGM20) | (1 << COM21) | (1 << CS22) | (1 << CS21);
+  86:	8e e6       	ldi	r24, 0x6E	; 110
+  88:	85 bd       	out	0x25, r24	; 37
+	OCR2 = 100;
+  8a:	84 e6       	ldi	r24, 0x64	; 100
+  8c:	83 bd       	out	0x23, r24	; 35
+  8e:	08 95       	ret
+
+00000090 <vInitProgram>:
+#include "../inc/hardware_config.h"
+
+
+void vInitProgram(){
+	//disable local interrupt
+	cli();
+  90:	f8 94       	cli
+	
+	//IO initialize
+	LED_BUB_INIT;		//Led debug is output
+  92:	bf 9a       	sbi	0x17, 7	; 23
+  94:	c7 9a       	sbi	0x18, 7	; 24
+	KEY_INIT;			//Key is input
+  96:	b8 98       	cbi	0x17, 0	; 23
+  98:	c0 9a       	sbi	0x18, 0	; 24
+  9a:	b9 98       	cbi	0x17, 1	; 23
+  9c:	c1 9a       	sbi	0x18, 1	; 24
+  9e:	ba 98       	cbi	0x17, 2	; 23
+  a0:	c2 9a       	sbi	0x18, 2	; 24
+	SWITCH_INIT;		//Switch is input
+  a2:	a3 98       	cbi	0x14, 3	; 20
+  a4:	ab 9a       	sbi	0x15, 3	; 21
+  a6:	a2 98       	cbi	0x14, 2	; 20
+  a8:	aa 9a       	sbi	0x15, 2	; 21
+  aa:	a1 98       	cbi	0x14, 1	; 20
+  ac:	a9 9a       	sbi	0x15, 1	; 21
+  ae:	a0 98       	cbi	0x14, 0	; 20
+  b0:	a8 9a       	sbi	0x15, 0	; 21
+	MOTOR_LEFT_INIT;
+  b2:	bc 9a       	sbi	0x17, 4	; 23
+  b4:	be 9a       	sbi	0x17, 6	; 23
+  b6:	c6 9a       	sbi	0x18, 6	; 24
+  b8:	8c 9a       	sbi	0x11, 4	; 17
+	MOTOR_RIGHT_INIT;
+  ba:	bb 9a       	sbi	0x17, 3	; 23
+  bc:	bd 9a       	sbi	0x17, 5	; 23
+  be:	c5 9a       	sbi	0x18, 5	; 24
+  c0:	8f 9a       	sbi	0x11, 7	; 17
+	//Timer and PWM
+	vInitTimer0();
+	vInitTimer1();
+  c2:	0e 94 36 00 	call	0x6c	; 0x6c <vInitTimer1>
+	vInitTimer2();	
+  c6:	0e 94 43 00 	call	0x86	; 0x86 <vInitTimer2>
+	
+	//enable local interrupt
+	sei();
+  ca:	78 94       	sei
+  cc:	08 95       	ret
+
+000000ce <bKeyIsPress>:
+ *  Author: Vo Huu Tai
+ */ 
+#include "../inc/hardware_feature.h"
+
+bool bKeyIsPress(uint8_t ucKeyID){
+	uint8_t mask = (1<<ucKeyID);
+  ce:	21 e0       	ldi	r18, 0x01	; 1
+  d0:	30 e0       	ldi	r19, 0x00	; 0
+  d2:	a9 01       	movw	r20, r18
+  d4:	02 c0       	rjmp	.+4      	; 0xda <bKeyIsPress+0xc>
+  d6:	44 0f       	add	r20, r20
+  d8:	55 1f       	adc	r21, r21
+  da:	8a 95       	dec	r24
+  dc:	e2 f7       	brpl	.-8      	; 0xd6 <bKeyIsPress+0x8>
+  de:	ca 01       	movw	r24, r20
+  e0:	24 2f       	mov	r18, r20
+	//key is pressed when pin = 0;
+	if((PIN_KEY & mask) != mask){
+  e2:	36 b3       	in	r19, 0x16	; 22
+  e4:	34 23       	and	r19, r20
+  e6:	34 17       	cp	r19, r20
+  e8:	c1 f0       	breq	.+48     	; 0x11a <bKeyIsPress+0x4c>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+  ea:	ef e3       	ldi	r30, 0x3F	; 63
+  ec:	fc e9       	ldi	r31, 0x9C	; 156
+  ee:	31 97       	sbiw	r30, 0x01	; 1
+  f0:	f1 f7       	brne	.-4      	; 0xee <bKeyIsPress+0x20>
+  f2:	00 c0       	rjmp	.+0      	; 0xf4 <bKeyIsPress+0x26>
+  f4:	00 00       	nop
+		_delay_ms(10);
+		if((PIN_KEY & mask) != mask){
+  f6:	96 b3       	in	r25, 0x16	; 22
+  f8:	89 23       	and	r24, r25
+  fa:	84 17       	cp	r24, r20
+  fc:	81 f0       	breq	.+32     	; 0x11e <bKeyIsPress+0x50>
+			LED_BUG_ON;
+  fe:	c7 98       	cbi	0x18, 7	; 24
+ 100:	8f e3       	ldi	r24, 0x3F	; 63
+ 102:	9c e9       	ldi	r25, 0x9C	; 156
+ 104:	01 97       	sbiw	r24, 0x01	; 1
+ 106:	f1 f7       	brne	.-4      	; 0x104 <bKeyIsPress+0x36>
+ 108:	00 c0       	rjmp	.+0      	; 0x10a <bKeyIsPress+0x3c>
+ 10a:	00 00       	nop
+			_delay_ms(10);
+			while((PIN_KEY&mask)!=mask);//waiting for key is released
+ 10c:	86 b3       	in	r24, 0x16	; 22
+ 10e:	82 23       	and	r24, r18
+ 110:	82 13       	cpse	r24, r18
+ 112:	fc cf       	rjmp	.-8      	; 0x10c <bKeyIsPress+0x3e>
+			LED_BUG_OFF;
+ 114:	c7 9a       	sbi	0x18, 7	; 24
+			return true;
+ 116:	81 e0       	ldi	r24, 0x01	; 1
+ 118:	08 95       	ret
+		}
+	}
+	return false;
+ 11a:	80 e0       	ldi	r24, 0x00	; 0
+ 11c:	08 95       	ret
+ 11e:	80 e0       	ldi	r24, 0x00	; 0
+}
+ 120:	08 95       	ret
+
+00000122 <main>:
+
+#define UNIT_TEST
+
+int main(void)
+{
+	vInitProgram();
+ 122:	0e 94 48 00 	call	0x90	; 0x90 <vInitProgram>
+    while(1)
+    {
+        #ifdef UNIT_TEST
+		vUnitTest();
+ 126:	0e 94 a0 00 	call	0x140	; 0x140 <vUnitTest>
+ 12a:	fd cf       	rjmp	.-6      	; 0x126 <main+0x4>
+
+0000012c <vKeyTest>:
+	LED_BUG_BLINK;
+	_delay_ms(1000);
+}
+
+void vKeyTest(){
+	bKeyIsPress(KEY1);
+ 12c:	80 e0       	ldi	r24, 0x00	; 0
+ 12e:	0e 94 67 00 	call	0xce	; 0xce <bKeyIsPress>
+	bKeyIsPress(KEY2);
+ 132:	81 e0       	ldi	r24, 0x01	; 1
+ 134:	0e 94 67 00 	call	0xce	; 0xce <bKeyIsPress>
+	bKeyIsPress(KEY3);
+ 138:	82 e0       	ldi	r24, 0x02	; 2
+ 13a:	0e 94 67 00 	call	0xce	; 0xce <bKeyIsPress>
+ 13e:	08 95       	ret
+
+00000140 <vUnitTest>:
+ 140:	0e 94 96 00 	call	0x12c	; 0x12c <vKeyTest>
+ 144:	08 95       	ret
+
+00000146 <_exit>:
+ 146:	f8 94       	cli
+
+00000148 <__stop_program>:
+ 148:	ff cf       	rjmp	.-2      	; 0x148 <__stop_program>

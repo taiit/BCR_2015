@@ -10,7 +10,9 @@
 #define HARDWARE_CONFIG_H_
 #include "../inc/common.h"
 
-extern bool bInitProgram();
-
+extern void vInitProgram();
+extern void vInitTimer0();
+extern void vInitTimer1();
+extern void vInitTimer2();
 
 #endif /* HARDWARE_CONFIG_H_ */

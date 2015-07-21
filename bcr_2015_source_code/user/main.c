@@ -14,7 +14,7 @@
 
 int main(void)
 {
-	bInitProgram();
+	vInitProgram();
     while(1)
     {
         #ifdef UNIT_TEST
