@@ -3,53 +3,55 @@ bcr_2015.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000014a  00000000  00000000  00000074  2**1
+  0 .text         00000320  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  0000014a  000001be  2**0
+  1 .data         00000004  00800060  00000320  000003b4  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  000001be  2**0
+  2 .bss          00000005  00800064  00800064  000003b8  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  000003b8  2**0
                   CONTENTS, READONLY
-  3 .debug_aranges 000000d0  00000000  00000000  000001ee  2**0
+  4 .debug_aranges 00000118  00000000  00000000  000003e8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_info   0000052a  00000000  00000000  000002be  2**0
+  5 .debug_info   0000083b  00000000  00000000  00000500  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_abbrev 00000376  00000000  00000000  000007e8  2**0
+  6 .debug_abbrev 00000509  00000000  00000000  00000d3b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_line   000004be  00000000  00000000  00000b5e  2**0
+  7 .debug_line   00000682  00000000  00000000  00001244  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_frame  00000114  00000000  00000000  0000101c  2**2
+  8 .debug_frame  000001e0  00000000  00000000  000018c8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_str    000002e4  00000000  00000000  00001130  2**0
+  9 .debug_str    000003d1  00000000  00000000  00001aa8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_loc    00000113  00000000  00000000  00001414  2**0
+ 10 .debug_loc    00000325  00000000  00000000  00001e79  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00000080  00000000  00000000  00001527  2**0
+ 11 .debug_ranges 000000b8  00000000  00000000  0000219e  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
-   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  24:	0c 94 48 01 	jmp	0x290	; 0x290 <__vector_9>
+  28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  34:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  38:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  40:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  44:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
 
 00000054 <__ctors_end>:
   54:	11 24       	eor	r1, r1
@@ -58,208 +60,552 @@ Disassembly of section .text:
   5a:	d4 e0       	ldi	r29, 0x04	; 4
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
-  60:	0e 94 91 00 	call	0x122	; 0x122 <main>
-  64:	0c 94 a3 00 	jmp	0x146	; 0x146 <_exit>
 
-00000068 <__bad_interrupt>:
-  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	e0 e2       	ldi	r30, 0x20	; 32
+  68:	f3 e0       	ldi	r31, 0x03	; 3
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	a4 36       	cpi	r26, 0x64	; 100
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
 
-0000006c <vInitTimer1>:
+00000076 <__do_clear_bss>:
+  76:	20 e0       	ldi	r18, 0x00	; 0
+  78:	a4 e6       	ldi	r26, 0x64	; 100
+  7a:	b0 e0       	ldi	r27, 0x00	; 0
+  7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
+
+0000007e <.do_clear_bss_loop>:
+  7e:	1d 92       	st	X+, r1
+
+00000080 <.do_clear_bss_start>:
+  80:	a9 36       	cpi	r26, 0x69	; 105
+  82:	b2 07       	cpc	r27, r18
+  84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
+  86:	0e 94 40 01 	call	0x280	; 0x280 <main>
+  8a:	0c 94 8e 01 	jmp	0x31c	; 0x31c <_exit>
+
+0000008e <__bad_interrupt>:
+  8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000092 <vInitTimer0>:
+				Normal mode.
+				F = 12Mhz
+				T = 5.33333us
+				=> prescaler = 64
+	*/
+	TCCR0 = (1 << CS01) | (1<<CS00);
+  92:	83 e0       	ldi	r24, 0x03	; 3
+  94:	83 bf       	out	0x33, r24	; 51
+	TIMSK |= (1 << TOIE0);
+  96:	89 b7       	in	r24, 0x39	; 57
+  98:	81 60       	ori	r24, 0x01	; 1
+  9a:	89 bf       	out	0x39, r24	; 57
+  9c:	08 95       	ret
+
+0000009e <vInitTimer1>:
 				F = 12Mhz
 				T = 15ms
 				=> prescaler = 8.
 				ICR1 = 15ms / ((1/12Mhz)*8) = 22500	
 	*/
 	TCCR1A = (1 << WGM11) | (1 << COM1A1) | (1 << COM1B1);
-  6c:	82 ea       	ldi	r24, 0xA2	; 162
-  6e:	8f bd       	out	0x2f, r24	; 47
+  9e:	82 ea       	ldi	r24, 0xA2	; 162
+  a0:	8f bd       	out	0x2f, r24	; 47
 	TCCR1B = (1 << WGM13) | (1 << WGM12) | (1 << CS11);
-  70:	8a e1       	ldi	r24, 0x1A	; 26
-  72:	8e bd       	out	0x2e, r24	; 46
+  a2:	8a e1       	ldi	r24, 0x1A	; 26
+  a4:	8e bd       	out	0x2e, r24	; 46
 	ICR1 = 22500;
-  74:	84 ee       	ldi	r24, 0xE4	; 228
-  76:	97 e5       	ldi	r25, 0x57	; 87
-  78:	97 bd       	out	0x27, r25	; 39
-  7a:	86 bd       	out	0x26, r24	; 38
+  a6:	84 ee       	ldi	r24, 0xE4	; 228
+  a8:	97 e5       	ldi	r25, 0x57	; 87
+  aa:	97 bd       	out	0x27, r25	; 39
+  ac:	86 bd       	out	0x26, r24	; 38
 	OCR1B = 2000;
-  7c:	80 ed       	ldi	r24, 0xD0	; 208
-  7e:	97 e0       	ldi	r25, 0x07	; 7
-  80:	99 bd       	out	0x29, r25	; 41
-  82:	88 bd       	out	0x28, r24	; 40
-  84:	08 95       	ret
+  ae:	80 ed       	ldi	r24, 0xD0	; 208
+  b0:	97 e0       	ldi	r25, 0x07	; 7
+  b2:	99 bd       	out	0x29, r25	; 41
+  b4:	88 bd       	out	0x28, r24	; 40
+  b6:	08 95       	ret
 
-00000086 <vInitTimer2>:
+000000b8 <vInitTimer2>:
 				Non-inverting: COM2[1:0] = 10
 				F = 12Mhz
-				T = 15ms
+				T = 5.5ms
 				=> prescaler = 256.
 	*/
 	TCCR2 = (1 << WGM21) | (1 << WGM20) | (1 << COM21) | (1 << CS22) | (1 << CS21);
-  86:	8e e6       	ldi	r24, 0x6E	; 110
-  88:	85 bd       	out	0x25, r24	; 37
+  b8:	8e e6       	ldi	r24, 0x6E	; 110
+  ba:	85 bd       	out	0x25, r24	; 37
 	OCR2 = 100;
-  8a:	84 e6       	ldi	r24, 0x64	; 100
-  8c:	83 bd       	out	0x23, r24	; 35
-  8e:	08 95       	ret
+  bc:	84 e6       	ldi	r24, 0x64	; 100
+  be:	83 bd       	out	0x23, r24	; 35
+  c0:	08 95       	ret
 
-00000090 <vInitProgram>:
+000000c2 <vInitProgram>:
 #include "../inc/hardware_config.h"
 
 
 void vInitProgram(){
 	//disable local interrupt
 	cli();
-  90:	f8 94       	cli
+  c2:	f8 94       	cli
 	
 	//IO initialize
 	LED_BUB_INIT;		//Led debug is output
-  92:	bf 9a       	sbi	0x17, 7	; 23
-  94:	c7 9a       	sbi	0x18, 7	; 24
+  c4:	bf 9a       	sbi	0x17, 7	; 23
+  c6:	c7 9a       	sbi	0x18, 7	; 24
 	KEY_INIT;			//Key is input
-  96:	b8 98       	cbi	0x17, 0	; 23
-  98:	c0 9a       	sbi	0x18, 0	; 24
-  9a:	b9 98       	cbi	0x17, 1	; 23
-  9c:	c1 9a       	sbi	0x18, 1	; 24
-  9e:	ba 98       	cbi	0x17, 2	; 23
-  a0:	c2 9a       	sbi	0x18, 2	; 24
+  c8:	b8 98       	cbi	0x17, 0	; 23
+  ca:	c0 9a       	sbi	0x18, 0	; 24
+  cc:	b9 98       	cbi	0x17, 1	; 23
+  ce:	c1 9a       	sbi	0x18, 1	; 24
+  d0:	ba 98       	cbi	0x17, 2	; 23
+  d2:	c2 9a       	sbi	0x18, 2	; 24
 	SWITCH_INIT;		//Switch is input
-  a2:	a3 98       	cbi	0x14, 3	; 20
-  a4:	ab 9a       	sbi	0x15, 3	; 21
-  a6:	a2 98       	cbi	0x14, 2	; 20
-  a8:	aa 9a       	sbi	0x15, 2	; 21
-  aa:	a1 98       	cbi	0x14, 1	; 20
-  ac:	a9 9a       	sbi	0x15, 1	; 21
-  ae:	a0 98       	cbi	0x14, 0	; 20
-  b0:	a8 9a       	sbi	0x15, 0	; 21
+  d4:	a3 98       	cbi	0x14, 3	; 20
+  d6:	ab 9a       	sbi	0x15, 3	; 21
+  d8:	a2 98       	cbi	0x14, 2	; 20
+  da:	aa 9a       	sbi	0x15, 2	; 21
+  dc:	a1 98       	cbi	0x14, 1	; 20
+  de:	a9 9a       	sbi	0x15, 1	; 21
+  e0:	a0 98       	cbi	0x14, 0	; 20
+  e2:	a8 9a       	sbi	0x15, 0	; 21
 	MOTOR_LEFT_INIT;
-  b2:	bc 9a       	sbi	0x17, 4	; 23
-  b4:	be 9a       	sbi	0x17, 6	; 23
-  b6:	c6 9a       	sbi	0x18, 6	; 24
-  b8:	8c 9a       	sbi	0x11, 4	; 17
+  e4:	bc 9a       	sbi	0x17, 4	; 23
+  e6:	be 9a       	sbi	0x17, 6	; 23
+  e8:	c6 9a       	sbi	0x18, 6	; 24
+  ea:	8c 9a       	sbi	0x11, 4	; 17
 	MOTOR_RIGHT_INIT;
-  ba:	bb 9a       	sbi	0x17, 3	; 23
-  bc:	bd 9a       	sbi	0x17, 5	; 23
-  be:	c5 9a       	sbi	0x18, 5	; 24
-  c0:	8f 9a       	sbi	0x11, 7	; 17
+  ec:	bb 9a       	sbi	0x17, 3	; 23
+  ee:	bd 9a       	sbi	0x17, 5	; 23
+  f0:	c5 9a       	sbi	0x18, 5	; 24
+  f2:	8f 9a       	sbi	0x11, 7	; 17
 	//Timer and PWM
 	vInitTimer0();
+  f4:	0e 94 49 00 	call	0x92	; 0x92 <vInitTimer0>
 	vInitTimer1();
-  c2:	0e 94 36 00 	call	0x6c	; 0x6c <vInitTimer1>
+  f8:	0e 94 4f 00 	call	0x9e	; 0x9e <vInitTimer1>
 	vInitTimer2();	
-  c6:	0e 94 43 00 	call	0x86	; 0x86 <vInitTimer2>
+  fc:	0e 94 5c 00 	call	0xb8	; 0xb8 <vInitTimer2>
 	
 	//enable local interrupt
 	sei();
-  ca:	78 94       	sei
-  cc:	08 95       	ret
+ 100:	78 94       	sei
+ 102:	08 95       	ret
 
-000000ce <bKeyIsPress>:
+00000104 <bKeyIsPress>:
  *  Author: Vo Huu Tai
  */ 
 #include "../inc/hardware_feature.h"
 
 bool bKeyIsPress(uint8_t ucKeyID){
 	uint8_t mask = (1<<ucKeyID);
-  ce:	21 e0       	ldi	r18, 0x01	; 1
-  d0:	30 e0       	ldi	r19, 0x00	; 0
-  d2:	a9 01       	movw	r20, r18
-  d4:	02 c0       	rjmp	.+4      	; 0xda <bKeyIsPress+0xc>
-  d6:	44 0f       	add	r20, r20
-  d8:	55 1f       	adc	r21, r21
-  da:	8a 95       	dec	r24
-  dc:	e2 f7       	brpl	.-8      	; 0xd6 <bKeyIsPress+0x8>
-  de:	ca 01       	movw	r24, r20
-  e0:	24 2f       	mov	r18, r20
+ 104:	21 e0       	ldi	r18, 0x01	; 1
+ 106:	30 e0       	ldi	r19, 0x00	; 0
+ 108:	a9 01       	movw	r20, r18
+ 10a:	02 c0       	rjmp	.+4      	; 0x110 <bKeyIsPress+0xc>
+ 10c:	44 0f       	add	r20, r20
+ 10e:	55 1f       	adc	r21, r21
+ 110:	8a 95       	dec	r24
+ 112:	e2 f7       	brpl	.-8      	; 0x10c <bKeyIsPress+0x8>
+ 114:	ca 01       	movw	r24, r20
+ 116:	24 2f       	mov	r18, r20
 	//key is pressed when pin = 0;
 	if((PIN_KEY & mask) != mask){
-  e2:	36 b3       	in	r19, 0x16	; 22
-  e4:	34 23       	and	r19, r20
-  e6:	34 17       	cp	r19, r20
-  e8:	c1 f0       	breq	.+48     	; 0x11a <bKeyIsPress+0x4c>
+ 118:	36 b3       	in	r19, 0x16	; 22
+ 11a:	34 23       	and	r19, r20
+ 11c:	34 17       	cp	r19, r20
+ 11e:	c1 f0       	breq	.+48     	; 0x150 <bKeyIsPress+0x4c>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  ea:	ef e3       	ldi	r30, 0x3F	; 63
-  ec:	fc e9       	ldi	r31, 0x9C	; 156
-  ee:	31 97       	sbiw	r30, 0x01	; 1
-  f0:	f1 f7       	brne	.-4      	; 0xee <bKeyIsPress+0x20>
-  f2:	00 c0       	rjmp	.+0      	; 0xf4 <bKeyIsPress+0x26>
-  f4:	00 00       	nop
+ 120:	ef e3       	ldi	r30, 0x3F	; 63
+ 122:	fc e9       	ldi	r31, 0x9C	; 156
+ 124:	31 97       	sbiw	r30, 0x01	; 1
+ 126:	f1 f7       	brne	.-4      	; 0x124 <bKeyIsPress+0x20>
+ 128:	00 c0       	rjmp	.+0      	; 0x12a <bKeyIsPress+0x26>
+ 12a:	00 00       	nop
 		_delay_ms(10);
 		if((PIN_KEY & mask) != mask){
-  f6:	96 b3       	in	r25, 0x16	; 22
-  f8:	89 23       	and	r24, r25
-  fa:	84 17       	cp	r24, r20
-  fc:	81 f0       	breq	.+32     	; 0x11e <bKeyIsPress+0x50>
+ 12c:	96 b3       	in	r25, 0x16	; 22
+ 12e:	89 23       	and	r24, r25
+ 130:	84 17       	cp	r24, r20
+ 132:	81 f0       	breq	.+32     	; 0x154 <bKeyIsPress+0x50>
 			LED_BUG_ON;
-  fe:	c7 98       	cbi	0x18, 7	; 24
- 100:	8f e3       	ldi	r24, 0x3F	; 63
- 102:	9c e9       	ldi	r25, 0x9C	; 156
- 104:	01 97       	sbiw	r24, 0x01	; 1
- 106:	f1 f7       	brne	.-4      	; 0x104 <bKeyIsPress+0x36>
- 108:	00 c0       	rjmp	.+0      	; 0x10a <bKeyIsPress+0x3c>
- 10a:	00 00       	nop
+ 134:	c7 98       	cbi	0x18, 7	; 24
+ 136:	8f e3       	ldi	r24, 0x3F	; 63
+ 138:	9c e9       	ldi	r25, 0x9C	; 156
+ 13a:	01 97       	sbiw	r24, 0x01	; 1
+ 13c:	f1 f7       	brne	.-4      	; 0x13a <bKeyIsPress+0x36>
+ 13e:	00 c0       	rjmp	.+0      	; 0x140 <bKeyIsPress+0x3c>
+ 140:	00 00       	nop
 			_delay_ms(10);
 			while((PIN_KEY&mask)!=mask);//waiting for key is released
- 10c:	86 b3       	in	r24, 0x16	; 22
- 10e:	82 23       	and	r24, r18
- 110:	82 13       	cpse	r24, r18
- 112:	fc cf       	rjmp	.-8      	; 0x10c <bKeyIsPress+0x3e>
+ 142:	86 b3       	in	r24, 0x16	; 22
+ 144:	82 23       	and	r24, r18
+ 146:	82 13       	cpse	r24, r18
+ 148:	fc cf       	rjmp	.-8      	; 0x142 <bKeyIsPress+0x3e>
 			LED_BUG_OFF;
- 114:	c7 9a       	sbi	0x18, 7	; 24
+ 14a:	c7 9a       	sbi	0x18, 7	; 24
 			return true;
- 116:	81 e0       	ldi	r24, 0x01	; 1
- 118:	08 95       	ret
+ 14c:	81 e0       	ldi	r24, 0x01	; 1
+ 14e:	08 95       	ret
 		}
 	}
 	return false;
- 11a:	80 e0       	ldi	r24, 0x00	; 0
- 11c:	08 95       	ret
- 11e:	80 e0       	ldi	r24, 0x00	; 0
+ 150:	80 e0       	ldi	r24, 0x00	; 0
+ 152:	08 95       	ret
+ 154:	80 e0       	ldi	r24, 0x00	; 0
 }
- 120:	08 95       	ret
+ 156:	08 95       	ret
 
-00000122 <main>:
+00000158 <vPeriodicDec>:
+	@param:		none
+	@return:	none 
+*/
+
+void vPeriodicDec(){	
+	if(uigLedPeriodic == 0 ){
+ 158:	80 91 62 00 	lds	r24, 0x0062
+ 15c:	90 91 63 00 	lds	r25, 0x0063
+ 160:	89 2b       	or	r24, r25
+ 162:	39 f4       	brne	.+14     	; 0x172 <vPeriodicDec+0x1a>
+		uigLedPeriodic = NO_LIMIT;
+ 164:	8f ef       	ldi	r24, 0xFF	; 255
+ 166:	9f ef       	ldi	r25, 0xFF	; 255
+ 168:	90 93 63 00 	sts	0x0063, r25
+ 16c:	80 93 62 00 	sts	0x0062, r24
+ 170:	08 95       	ret
+	}else
+	uigLedPeriodic--;	
+ 172:	80 91 62 00 	lds	r24, 0x0062
+ 176:	90 91 63 00 	lds	r25, 0x0063
+ 17a:	01 97       	sbiw	r24, 0x01	; 1
+ 17c:	90 93 63 00 	sts	0x0063, r25
+ 180:	80 93 62 00 	sts	0x0062, r24
+ 184:	08 95       	ret
+
+00000186 <vIntervalDec>:
+	@param:		none
+	@return:	none 
+*/
+void vIntervalDec(){
+	
+	if(uigLedInterval == 0){
+ 186:	80 91 60 00 	lds	r24, 0x0060
+ 18a:	90 91 61 00 	lds	r25, 0x0061
+ 18e:	89 2b       	or	r24, r25
+ 190:	39 f4       	brne	.+14     	; 0x1a0 <vIntervalDec+0x1a>
+		uigLedInterval = NO_LIMIT;
+ 192:	8f ef       	ldi	r24, 0xFF	; 255
+ 194:	9f ef       	ldi	r25, 0xFF	; 255
+ 196:	90 93 61 00 	sts	0x0061, r25
+ 19a:	80 93 60 00 	sts	0x0060, r24
+ 19e:	08 95       	ret
+	}
+	else
+	uigLedInterval--;	
+ 1a0:	80 91 60 00 	lds	r24, 0x0060
+ 1a4:	90 91 61 00 	lds	r25, 0x0061
+ 1a8:	01 97       	sbiw	r24, 0x01	; 1
+ 1aa:	90 93 61 00 	sts	0x0061, r25
+ 1ae:	80 93 60 00 	sts	0x0060, r24
+ 1b2:	08 95       	ret
+
+000001b4 <ucPareLedEvent>:
+	@param:		led event
+	@return:	Led Periodic counter
+*/
+uint16_t ucPareLedEvent(uint8_t led_event){
+	uint16_t uiRet = NO_LIMIT;
+	switch(led_event){
+ 1b4:	82 30       	cpi	r24, 0x02	; 2
+ 1b6:	69 f0       	breq	.+26     	; 0x1d2 <ucPareLedEvent+0x1e>
+ 1b8:	83 30       	cpi	r24, 0x03	; 3
+ 1ba:	a1 f0       	breq	.+40     	; 0x1e4 <ucPareLedEvent+0x30>
+ 1bc:	81 30       	cpi	r24, 0x01	; 1
+ 1be:	d9 f4       	brne	.+54     	; 0x1f6 <ucPareLedEvent+0x42>
+		case LED_FAST_BLINK:			
+			uigLedInterval = LED_50_MS;			
+ 1c0:	85 e0       	ldi	r24, 0x05	; 5
+ 1c2:	90 e0       	ldi	r25, 0x00	; 0
+ 1c4:	90 93 61 00 	sts	0x0061, r25
+ 1c8:	80 93 60 00 	sts	0x0060, r24
+	@brief:		parse control for led
+	@param:		led event
+	@return:	Led Periodic counter
+*/
+uint16_t ucPareLedEvent(uint8_t led_event){
+	uint16_t uiRet = NO_LIMIT;
+ 1cc:	8f ef       	ldi	r24, 0xFF	; 255
+ 1ce:	9f ef       	ldi	r25, 0xFF	; 255
+	switch(led_event){
+		case LED_FAST_BLINK:			
+			uigLedInterval = LED_50_MS;			
+			break;
+ 1d0:	08 95       	ret
+		case LED_SLOW_BLINK:			
+			uigLedInterval = LED_100_MS;			
+ 1d2:	8a e0       	ldi	r24, 0x0A	; 10
+ 1d4:	90 e0       	ldi	r25, 0x00	; 0
+ 1d6:	90 93 61 00 	sts	0x0061, r25
+ 1da:	80 93 60 00 	sts	0x0060, r24
+	@brief:		parse control for led
+	@param:		led event
+	@return:	Led Periodic counter
+*/
+uint16_t ucPareLedEvent(uint8_t led_event){
+	uint16_t uiRet = NO_LIMIT;
+ 1de:	8f ef       	ldi	r24, 0xFF	; 255
+ 1e0:	9f ef       	ldi	r25, 0xFF	; 255
+		case LED_FAST_BLINK:			
+			uigLedInterval = LED_50_MS;			
+			break;
+		case LED_SLOW_BLINK:			
+			uigLedInterval = LED_100_MS;			
+			break;
+ 1e2:	08 95       	ret
+		case LED_STARTUP_COMPELETE:			
+			uigLedInterval = LED_50_MS;	
+ 1e4:	85 e0       	ldi	r24, 0x05	; 5
+ 1e6:	90 e0       	ldi	r25, 0x00	; 0
+ 1e8:	90 93 61 00 	sts	0x0061, r25
+ 1ec:	80 93 60 00 	sts	0x0060, r24
+			uiRet = LED_10_S;	
+ 1f0:	88 ee       	ldi	r24, 0xE8	; 232
+ 1f2:	93 e0       	ldi	r25, 0x03	; 3
+			break;		
+ 1f4:	08 95       	ret
+	@brief:		parse control for led
+	@param:		led event
+	@return:	Led Periodic counter
+*/
+uint16_t ucPareLedEvent(uint8_t led_event){
+	uint16_t uiRet = NO_LIMIT;
+ 1f6:	8f ef       	ldi	r24, 0xFF	; 255
+ 1f8:	9f ef       	ldi	r25, 0xFF	; 255
+			break;		
+		default:			
+			break;
+	}
+	return uiRet;
+}
+ 1fa:	08 95       	ret
+
+000001fc <vLedFlash>:
+//
+void vLedFlash(){
+ 1fc:	cf 93       	push	r28
+	uint8_t ucStateTemp = ucgLedState;	
+ 1fe:	c0 91 66 00 	lds	r28, 0x0066
+	
+	switch(ucStateTemp){
+ 202:	cc 23       	and	r28, r28
+ 204:	61 f1       	breq	.+88     	; 0x25e <vLedFlash+0x62>
+ 206:	c1 30       	cpi	r28, 0x01	; 1
+ 208:	41 f5       	brne	.+80     	; 0x25a <vLedFlash+0x5e>
+		case LED_STATE_NONE:	//State NONE do nothing.
+			return;
+		case LED_STATE_BLINK:		
+			vPeriodicDec();
+ 20a:	0e 94 ac 00 	call	0x158	; 0x158 <vPeriodicDec>
+			if(uigLedPeriodic == 0){
+ 20e:	80 91 62 00 	lds	r24, 0x0062
+ 212:	90 91 63 00 	lds	r25, 0x0063
+ 216:	89 2b       	or	r24, r25
+ 218:	29 f4       	brne	.+10     	; 0x224 <vLedFlash+0x28>
+				LED_BUG_OFF; //turn off led
+ 21a:	c7 9a       	sbi	0x18, 7	; 24
+				bgLedFlag = LED_FLAG_OFF;//set flag is off
+ 21c:	10 92 65 00 	sts	0x0065, r1
+				ucStateTemp = LED_STATE_NONE;
+ 220:	c0 e0       	ldi	r28, 0x00	; 0
+ 222:	1b c0       	rjmp	.+54     	; 0x25a <vLedFlash+0x5e>
+			}
+			else{
+				vIntervalDec();
+ 224:	0e 94 c3 00 	call	0x186	; 0x186 <vIntervalDec>
+				if(uigLedInterval == 0){
+ 228:	80 91 60 00 	lds	r24, 0x0060
+ 22c:	90 91 61 00 	lds	r25, 0x0061
+ 230:	89 2b       	or	r24, r25
+ 232:	99 f4       	brne	.+38     	; 0x25a <vLedFlash+0x5e>
+					switch (bgLedFlag)
+ 234:	80 91 65 00 	lds	r24, 0x0065
+ 238:	90 e0       	ldi	r25, 0x00	; 0
+ 23a:	00 97       	sbiw	r24, 0x00	; 0
+ 23c:	31 f0       	breq	.+12     	; 0x24a <vLedFlash+0x4e>
+ 23e:	01 97       	sbiw	r24, 0x01	; 1
+ 240:	41 f4       	brne	.+16     	; 0x252 <vLedFlash+0x56>
+					{
+						case LED_FLAG_ON:
+							bgLedFlag = LED_FLAG_OFF;
+ 242:	10 92 65 00 	sts	0x0065, r1
+							LED_BUG_OFF;
+ 246:	c7 9a       	sbi	0x18, 7	; 24
+							break;
+ 248:	04 c0       	rjmp	.+8      	; 0x252 <vLedFlash+0x56>
+						case LED_FLAG_OFF:
+							bgLedFlag = LED_FLAG_ON;
+ 24a:	81 e0       	ldi	r24, 0x01	; 1
+ 24c:	80 93 65 00 	sts	0x0065, r24
+							LED_BUG_ON;
+ 250:	c7 98       	cbi	0x18, 7	; 24
+							break;
+						default:							
+							break;
+					}					
+					ucPareLedEvent(ucLedEvent);					
+ 252:	80 91 64 00 	lds	r24, 0x0064
+ 256:	0e 94 da 00 	call	0x1b4	; 0x1b4 <ucPareLedEvent>
+			}
+			break;
+		default:			
+			break;		
+	}		
+	ucgLedState = ucStateTemp;		
+ 25a:	c0 93 66 00 	sts	0x0066, r28
+}
+ 25e:	cf 91       	pop	r28
+ 260:	08 95       	ret
+
+00000262 <vLedCtrl>:
+
+extern void vLedCtrl(uint8_t E_EVENT){
+ 262:	cf 93       	push	r28
+ 264:	c8 2f       	mov	r28, r24
+	
+	uigLedPeriodic = ucPareLedEvent(E_EVENT);
+ 266:	0e 94 da 00 	call	0x1b4	; 0x1b4 <ucPareLedEvent>
+ 26a:	90 93 63 00 	sts	0x0063, r25
+ 26e:	80 93 62 00 	sts	0x0062, r24
+	ucgLedState = LED_STATE_BLINK;	
+ 272:	81 e0       	ldi	r24, 0x01	; 1
+ 274:	80 93 66 00 	sts	0x0066, r24
+	ucLedEvent = E_EVENT;
+ 278:	c0 93 64 00 	sts	0x0064, r28
+	
+ 27c:	cf 91       	pop	r28
+ 27e:	08 95       	ret
+
+00000280 <main>:
 
 #define UNIT_TEST
 
 int main(void)
 {
 	vInitProgram();
- 122:	0e 94 48 00 	call	0x90	; 0x90 <vInitProgram>
+ 280:	0e 94 61 00 	call	0xc2	; 0xc2 <vInitProgram>
+	vLedCtrl(LED_STARTUP_COMPELETE);
+ 284:	83 e0       	ldi	r24, 0x03	; 3
+ 286:	0e 94 31 01 	call	0x262	; 0x262 <vLedCtrl>
     while(1)
     {
         #ifdef UNIT_TEST
 		vUnitTest();
- 126:	0e 94 a0 00 	call	0x140	; 0x140 <vUnitTest>
- 12a:	fd cf       	rjmp	.-6      	; 0x126 <main+0x4>
+ 28a:	0e 94 8b 01 	call	0x316	; 0x316 <vUnitTest>
+ 28e:	fd cf       	rjmp	.-6      	; 0x28a <main+0xa>
 
-0000012c <vKeyTest>:
+00000290 <__vector_9>:
+		#endif // UNIT_TEST		
+    }
+}
+volatile uint16_t uiTimer0Cnt = 0;
+ISR(TIMER0_OVF_vect)
+{
+ 290:	1f 92       	push	r1
+ 292:	0f 92       	push	r0
+ 294:	0f b6       	in	r0, 0x3f	; 63
+ 296:	0f 92       	push	r0
+ 298:	11 24       	eor	r1, r1
+ 29a:	2f 93       	push	r18
+ 29c:	3f 93       	push	r19
+ 29e:	4f 93       	push	r20
+ 2a0:	5f 93       	push	r21
+ 2a2:	6f 93       	push	r22
+ 2a4:	7f 93       	push	r23
+ 2a6:	8f 93       	push	r24
+ 2a8:	9f 93       	push	r25
+ 2aa:	af 93       	push	r26
+ 2ac:	bf 93       	push	r27
+ 2ae:	ef 93       	push	r30
+ 2b0:	ff 93       	push	r31
+	TCNT0 = 68;	//~1ms
+ 2b2:	84 e4       	ldi	r24, 0x44	; 68
+ 2b4:	82 bf       	out	0x32, r24	; 50
+	uiTimer0Cnt++;
+ 2b6:	80 91 67 00 	lds	r24, 0x0067
+ 2ba:	90 91 68 00 	lds	r25, 0x0068
+ 2be:	01 96       	adiw	r24, 0x01	; 1
+ 2c0:	90 93 68 00 	sts	0x0068, r25
+ 2c4:	80 93 67 00 	sts	0x0067, r24
+	if(uiTimer0Cnt == 10){//10ms
+ 2c8:	80 91 67 00 	lds	r24, 0x0067
+ 2cc:	90 91 68 00 	lds	r25, 0x0068
+ 2d0:	0a 97       	sbiw	r24, 0x0a	; 10
+ 2d2:	31 f4       	brne	.+12     	; 0x2e0 <__vector_9+0x50>
+		uiTimer0Cnt = 0;
+ 2d4:	10 92 68 00 	sts	0x0068, r1
+ 2d8:	10 92 67 00 	sts	0x0067, r1
+		vLedFlash();
+ 2dc:	0e 94 fe 00 	call	0x1fc	; 0x1fc <vLedFlash>
+	}
+	
+ 2e0:	ff 91       	pop	r31
+ 2e2:	ef 91       	pop	r30
+ 2e4:	bf 91       	pop	r27
+ 2e6:	af 91       	pop	r26
+ 2e8:	9f 91       	pop	r25
+ 2ea:	8f 91       	pop	r24
+ 2ec:	7f 91       	pop	r23
+ 2ee:	6f 91       	pop	r22
+ 2f0:	5f 91       	pop	r21
+ 2f2:	4f 91       	pop	r20
+ 2f4:	3f 91       	pop	r19
+ 2f6:	2f 91       	pop	r18
+ 2f8:	0f 90       	pop	r0
+ 2fa:	0f be       	out	0x3f, r0	; 63
+ 2fc:	0f 90       	pop	r0
+ 2fe:	1f 90       	pop	r1
+ 300:	18 95       	reti
+
+00000302 <vKeyTest>:
 	LED_BUG_BLINK;
 	_delay_ms(1000);
 }
 
 void vKeyTest(){
 	bKeyIsPress(KEY1);
- 12c:	80 e0       	ldi	r24, 0x00	; 0
- 12e:	0e 94 67 00 	call	0xce	; 0xce <bKeyIsPress>
+ 302:	80 e0       	ldi	r24, 0x00	; 0
+ 304:	0e 94 82 00 	call	0x104	; 0x104 <bKeyIsPress>
 	bKeyIsPress(KEY2);
- 132:	81 e0       	ldi	r24, 0x01	; 1
- 134:	0e 94 67 00 	call	0xce	; 0xce <bKeyIsPress>
+ 308:	81 e0       	ldi	r24, 0x01	; 1
+ 30a:	0e 94 82 00 	call	0x104	; 0x104 <bKeyIsPress>
 	bKeyIsPress(KEY3);
- 138:	82 e0       	ldi	r24, 0x02	; 2
- 13a:	0e 94 67 00 	call	0xce	; 0xce <bKeyIsPress>
- 13e:	08 95       	ret
+ 30e:	82 e0       	ldi	r24, 0x02	; 2
+ 310:	0e 94 82 00 	call	0x104	; 0x104 <bKeyIsPress>
+ 314:	08 95       	ret
 
-00000140 <vUnitTest>:
- 140:	0e 94 96 00 	call	0x12c	; 0x12c <vKeyTest>
- 144:	08 95       	ret
+00000316 <vUnitTest>:
+	#ifdef UNIT_TEST_LED_BUG
+	vLedDebugTest();
+	#endif
+	
+	#ifdef UNIT_TEST_KEY
+	vKeyTest();
+ 316:	0e 94 81 01 	call	0x302	; 0x302 <vKeyTest>
+ 31a:	08 95       	ret
 
-00000146 <_exit>:
- 146:	f8 94       	cli
+0000031c <_exit>:
+ 31c:	f8 94       	cli
 
-00000148 <__stop_program>:
- 148:	ff cf       	rjmp	.-2      	; 0x148 <__stop_program>
+0000031e <__stop_program>:
+ 31e:	ff cf       	rjmp	.-2      	; 0x31e <__stop_program>

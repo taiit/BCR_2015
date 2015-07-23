@@ -26,7 +26,15 @@ void vInitProgram(){
 	sei();
 }
 void vInitTimer0(){
-	
+	/**
+	       Timer 0.
+				Normal mode.
+				F = 12Mhz
+				T = 5.33333us
+				=> prescaler = 64
+	*/
+	TCCR0 = (1 << CS01) | (1<<CS00);
+	TIMSK |= (1 << TOIE0);
 }
 void vInitTimer1(){
 	/**

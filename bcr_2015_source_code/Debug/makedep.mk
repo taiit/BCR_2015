@@ -6,6 +6,8 @@ lib\src\hardware_config.c
 
 lib\src\hardware_feature.c
 
+lib\src\LedBug.c
+
 user\main.c
 
 user\unit_test\unit_test.c

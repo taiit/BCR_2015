@@ -43,6 +43,7 @@ SUBDIRS :=  \
 C_SRCS +=  \
 ../lib/src/hardware_config.c \
 ../lib/src/hardware_feature.c \
+../lib/src/LedBug.c \
 ../user/main.c \
 ../user/unit_test/unit_test.c \
 ../user/unit_test/unit_test_main.c
@@ -57,6 +58,7 @@ ASM_SRCS +=
 OBJS +=  \
 lib/src/hardware_config.o \
 lib/src/hardware_feature.o \
+lib/src/LedBug.o \
 user/main.o \
 user/unit_test/unit_test.o \
 user/unit_test/unit_test_main.o
@@ -64,6 +66,7 @@ user/unit_test/unit_test_main.o
 OBJS_AS_ARGS +=  \
 lib/src/hardware_config.o \
 lib/src/hardware_feature.o \
+lib/src/LedBug.o \
 user/main.o \
 user/unit_test/unit_test.o \
 user/unit_test/unit_test_main.o
@@ -71,6 +74,7 @@ user/unit_test/unit_test_main.o
 C_DEPS +=  \
 lib/src/hardware_config.d \
 lib/src/hardware_feature.d \
+lib/src/LedBug.d \
 user/main.d \
 user/unit_test/unit_test.d \
 user/unit_test/unit_test_main.d
@@ -78,6 +82,7 @@ user/unit_test/unit_test_main.d
 C_DEPS_AS_ARGS +=  \
 lib/src/hardware_config.d \
 lib/src/hardware_feature.d \
+lib/src/LedBug.d \
 user/main.d \
 user/unit_test/unit_test.d \
 user/unit_test/unit_test_main.d
@@ -93,6 +98,8 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
+
+
 
 
 
