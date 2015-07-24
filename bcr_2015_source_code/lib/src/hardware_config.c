@@ -17,6 +17,9 @@ void vInitProgram(){
 	SWITCH_INIT;		//Switch is input
 	MOTOR_LEFT_INIT;
 	MOTOR_RIGHT_INIT;
+	SLAVE_ENABLE_INIT;
+	SLAVE_ON;
+	
 	//Timer and PWM
 	vInitTimer0();
 	vInitTimer1();

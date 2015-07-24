@@ -32,5 +32,10 @@ extern void vKeyTest();
 	@return:	none 
 */
 extern void vSwitchTest();
-
+/*
+	@brief:		Unit test for slave board
+	@param:		none
+	@return:	none 
+*/
+extern void vSlaveTest();
 #endif /* UINT_TEST_H_ */

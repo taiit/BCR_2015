@@ -7,13 +7,12 @@
 #include "uint_test.h"
 //define 
 
-//#define UNIT_TEST_LED_BUG
-#define UNIT_TEST_KEY
+#define UNIT_TEST_LED_BUG
+//#define UNIT_TEST_KEY
 //#define UNIT_TEST_SWITCH
+//#define UNIT_TEST_SLAVE_BOARD
 
-
-void vUnitTest(){
-	
+void vUnitTest(){	
 		
 	#ifdef UNIT_TEST_LED_BUG
 	vLedDebugTest();
@@ -27,5 +26,7 @@ void vUnitTest(){
 	vSwitchTest();
 	#endif	
 	
-
+	#ifdef UNIT_TEST_SLAVE_BOARD
+	vSlaveTest();
+	#endif
 }

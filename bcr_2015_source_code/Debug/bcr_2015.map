@@ -20,6 +20,8 @@ Discarded input sections
  .bss           0x00000000        0x0 lib/src/hardware_config.o
  .text          0x00000000        0x0 lib/src/hardware_feature.o
  .bss           0x00000000        0x0 lib/src/hardware_feature.o
+ .text.bKeyIsPress
+                0x00000000       0x54 lib/src/hardware_feature.o
  .text.ucGetSwitch
                 0x00000000        0x8 lib/src/hardware_feature.o
  .text          0x00000000        0x0 lib/src/LedBug.o
@@ -29,10 +31,12 @@ Discarded input sections
  .bss           0x00000000        0x0 user/main.o
  .text          0x00000000        0x0 user/unit_test/unit_test.o
  .bss           0x00000000        0x0 user/unit_test/unit_test.o
- .text.vLedDebugTest
-                0x00000000       0x1a user/unit_test/unit_test.o
+ .text.vKeyTest
+                0x00000000       0x14 user/unit_test/unit_test.o
  .text.vSwitchTest
                 0x00000000       0x10 user/unit_test/unit_test.o
+ .text.vSlaveTest
+                0x00000000       0x2a user/unit_test/unit_test.o
  .text          0x00000000        0x0 user/unit_test/unit_test_main.o
  .bss           0x00000000        0x0 user/unit_test/unit_test_main.o
  .text          0x00000000        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1056/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
@@ -201,7 +205,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x320
+.text           0x00000000      0x32a
  *(.vectors)
  .vectors       0x00000000       0x54 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1056/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
                 0x00000000                __vector_default
@@ -290,42 +294,39 @@ END GROUP
                 0x000000b8        0xa lib/src/hardware_config.o
                 0x000000b8                vInitTimer2
  .text.vInitProgram
-                0x000000c2       0x42 lib/src/hardware_config.o
+                0x000000c2       0x46 lib/src/hardware_config.o
                 0x000000c2                vInitProgram
- .text.bKeyIsPress
-                0x00000104       0x54 lib/src/hardware_feature.o
-                0x00000104                bKeyIsPress
  .text.vPeriodicDec
-                0x00000158       0x2e lib/src/LedBug.o
-                0x00000158                vPeriodicDec
+                0x00000108       0x2e lib/src/LedBug.o
+                0x00000108                vPeriodicDec
  .text.vIntervalDec
-                0x00000186       0x2e lib/src/LedBug.o
-                0x00000186                vIntervalDec
+                0x00000136       0x2e lib/src/LedBug.o
+                0x00000136                vIntervalDec
  .text.ucPareLedEvent
-                0x000001b4       0x48 lib/src/LedBug.o
-                0x000001b4                ucPareLedEvent
+                0x00000164       0x48 lib/src/LedBug.o
+                0x00000164                ucPareLedEvent
  .text.vLedFlash
-                0x000001fc       0x66 lib/src/LedBug.o
-                0x000001fc                vLedFlash
+                0x000001ac       0x66 lib/src/LedBug.o
+                0x000001ac                vLedFlash
  .text.vLedCtrl
-                0x00000262       0x1e lib/src/LedBug.o
-                0x00000262                vLedCtrl
- .text.main     0x00000280       0x10 user/main.o
-                0x00000280                main
+                0x00000212       0x1e lib/src/LedBug.o
+                0x00000212                vLedCtrl
+ .text.main     0x00000230        0xa user/main.o
+                0x00000230                main
  .text.__vector_9
-                0x00000290       0x72 user/main.o
-                0x00000290                __vector_9
- .text.vKeyTest
-                0x00000302       0x14 user/unit_test/unit_test.o
-                0x00000302                vKeyTest
+                0x0000023a       0x72 user/main.o
+                0x0000023a                __vector_9
+ .text.vLedDebugTest
+                0x000002ac       0x74 user/unit_test/unit_test.o
+                0x000002ac                vLedDebugTest
  .text.vUnitTest
-                0x00000316        0x6 user/unit_test/unit_test_main.o
-                0x00000316                vUnitTest
-                0x0000031c                . = ALIGN (0x2)
+                0x00000320        0x6 user/unit_test/unit_test_main.o
+                0x00000320                vUnitTest
+                0x00000326                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000031c        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1056/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
-                0x0000031c                _exit
-                0x0000031c                exit
+ .fini9         0x00000326        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1056/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+                0x00000326                _exit
+                0x00000326                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -344,11 +345,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000031c        0x4 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1056/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000326        0x4 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1056/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000320                _etext = .
+                0x0000032a                _etext = .
 
-.data           0x00800060        0x4 load address 0x00000320
+.data           0x00800060        0x4 load address 0x0000032a
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x0 c:/program files/atmel/atmel toolchain/avr8 gcc/native/3.4.1056/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.8.1/../../../../avr/lib/avr5/crtm16a.o
@@ -393,8 +394,8 @@ END GROUP
                 0x00800067                uiTimer0Cnt
  *(COMMON)
                 0x00800069                PROVIDE (__bss_end, .)
-                0x00000320                __data_load_start = LOADADDR (.data)
-                0x00000324                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000032a                __data_load_start = LOADADDR (.data)
+                0x0000032e                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800069        0x0
                 0x00800069                PROVIDE (__noinit_start, .)
@@ -465,7 +466,7 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x118
+.debug_aranges  0x00000000      0x120
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x38 lib/src/hardware_config.o
@@ -476,50 +477,50 @@ END GROUP
  .debug_aranges
                 0x000000a0       0x28 user/main.o
  .debug_aranges
-                0x000000c8       0x30 user/unit_test/unit_test.o
+                0x000000c8       0x38 user/unit_test/unit_test.o
  .debug_aranges
-                0x000000f8       0x20 user/unit_test/unit_test_main.o
+                0x00000100       0x20 user/unit_test/unit_test_main.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x83b
+.debug_info     0x00000000      0xa0f
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000       0xe8 lib/src/hardware_config.o
  .debug_info    0x000000e8      0x19d lib/src/hardware_feature.o
  .debug_info    0x00000285      0x227 lib/src/LedBug.o
- .debug_info    0x000004ac      0x18e user/main.o
- .debug_info    0x0000063a      0x1a9 user/unit_test/unit_test.o
- .debug_info    0x000007e3       0x58 user/unit_test/unit_test_main.o
+ .debug_info    0x000004ac      0x167 user/main.o
+ .debug_info    0x00000613      0x3a4 user/unit_test/unit_test.o
+ .debug_info    0x000009b7       0x58 user/unit_test/unit_test_main.o
 
-.debug_abbrev   0x00000000      0x509
+.debug_abbrev   0x00000000      0x53b
  *(.debug_abbrev)
  .debug_abbrev  0x00000000       0x70 lib/src/hardware_config.o
  .debug_abbrev  0x00000070      0x120 lib/src/hardware_feature.o
  .debug_abbrev  0x00000190      0x10b lib/src/LedBug.o
- .debug_abbrev  0x0000029b      0x100 user/main.o
- .debug_abbrev  0x0000039b      0x121 user/unit_test/unit_test.o
- .debug_abbrev  0x000004bc       0x4d user/unit_test/unit_test_main.o
+ .debug_abbrev  0x0000029b       0xcd user/main.o
+ .debug_abbrev  0x00000368      0x186 user/unit_test/unit_test.o
+ .debug_abbrev  0x000004ee       0x4d user/unit_test/unit_test_main.o
 
-.debug_line     0x00000000      0x682
+.debug_line     0x00000000      0x6e3
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000       0xf7 lib/src/hardware_config.o
- .debug_line    0x000000f7      0x156 lib/src/hardware_feature.o
- .debug_line    0x0000024d      0x135 lib/src/LedBug.o
- .debug_line    0x00000382      0x116 user/main.o
- .debug_line    0x00000498      0x18b user/unit_test/unit_test.o
- .debug_line    0x00000623       0x5f user/unit_test/unit_test_main.o
+ .debug_line    0x00000000       0xf9 lib/src/hardware_config.o
+ .debug_line    0x000000f9      0x156 lib/src/hardware_feature.o
+ .debug_line    0x0000024f      0x135 lib/src/LedBug.o
+ .debug_line    0x00000384      0x115 user/main.o
+ .debug_line    0x00000499      0x1eb user/unit_test/unit_test.o
+ .debug_line    0x00000684       0x5f user/unit_test/unit_test_main.o
 
-.debug_frame    0x00000000      0x1e0
+.debug_frame    0x00000000      0x1f0
  *(.debug_frame)
  .debug_frame   0x00000000       0x54 lib/src/hardware_config.o
  .debug_frame   0x00000054       0x34 lib/src/hardware_feature.o
  .debug_frame   0x00000088       0x74 lib/src/LedBug.o
  .debug_frame   0x000000fc       0x7c user/main.o
- .debug_frame   0x00000178       0x44 user/unit_test/unit_test.o
- .debug_frame   0x000001bc       0x24 user/unit_test/unit_test_main.o
+ .debug_frame   0x00000178       0x54 user/unit_test/unit_test.o
+ .debug_frame   0x000001cc       0x24 user/unit_test/unit_test_main.o
 
-.debug_str      0x00000000      0x3d1
+.debug_str      0x00000000      0x3dc
  *(.debug_str)
  .debug_str     0x00000000      0x179 lib/src/hardware_config.o
                                 0x1ad (size before relaxing)
@@ -528,17 +529,18 @@ END GROUP
  .debug_str     0x00000215      0x123 lib/src/LedBug.o
                                 0x288 (size before relaxing)
  .debug_str     0x00000338       0x35 user/main.o
-                                0x224 (size before relaxing)
- .debug_str     0x0000036d       0x41 user/unit_test/unit_test.o
-                                0x200 (size before relaxing)
- .debug_str     0x000003ae       0x23 user/unit_test/unit_test_main.o
-                                0x11d (size before relaxing)
+                                0x21b (size before relaxing)
+ .debug_str     0x0000036d       0x4c user/unit_test/unit_test.o
+                                0x284 (size before relaxing)
+ .debug_str     0x000003b9       0x23 user/unit_test/unit_test_main.o
+                                0x122 (size before relaxing)
 
-.debug_loc      0x00000000      0x325
+.debug_loc      0x00000000      0x366
  *(.debug_loc)
  .debug_loc     0x00000000      0x113 lib/src/hardware_feature.o
  .debug_loc     0x00000113      0x147 lib/src/LedBug.o
  .debug_loc     0x0000025a       0xcb user/main.o
+ .debug_loc     0x00000325       0x41 user/unit_test/unit_test.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -558,14 +560,14 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0xb8
+.debug_ranges   0x00000000       0xc0
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x28 lib/src/hardware_config.o
  .debug_ranges  0x00000028       0x18 lib/src/hardware_feature.o
  .debug_ranges  0x00000040       0x30 lib/src/LedBug.o
  .debug_ranges  0x00000070       0x18 user/main.o
- .debug_ranges  0x00000088       0x20 user/unit_test/unit_test.o
- .debug_ranges  0x000000a8       0x10 user/unit_test/unit_test_main.o
+ .debug_ranges  0x00000088       0x28 user/unit_test/unit_test.o
+ .debug_ranges  0x000000b0       0x10 user/unit_test/unit_test_main.o
 
 .debug_macro
  *(.debug_macro)

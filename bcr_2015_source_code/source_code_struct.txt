@@ -5,11 +5,12 @@ bcr_2015
 	|	|	|--common.h				-	define common macro and GPIO 
 	|	|	|--hardware_config.h	-	hearder file for hardware_config.c	
 	|	|	|--hardware_feature.h	-	header file for hardware_feature.c
-	|	|
+	|	|	|--LedBug.h				-	header file of LedBug.c
+	|	|	
 	|	|--src
 	|		|--hardware_config.c	-	initializer hardware (GPIO, Timer, PWM, UART)
-	|		|--hardware_feature.c	-	implement  function for led_ bug, key, switch, motor, servo, interrupt, uart..
-	|	
+	|		|--hardware_feature.c	-	implement function for led_ bug, key, switch, motor, servo, interrupt, uart..
+	|		|--LedBug.c				-	perform led debug function
 	|-- user
 	|	|--unit_test
 	|	|	|--unit_test.h		-	heard file for unit_test.c

@@ -15,8 +15,7 @@
 
 int main(void)
 {
-	vInitProgram();
-	vLedCtrl(LED_STARTUP_COMPELETE);
+	vInitProgram();	
     while(1)
     {
         #ifdef UNIT_TEST

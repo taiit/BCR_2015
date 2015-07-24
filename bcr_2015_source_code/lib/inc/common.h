@@ -91,4 +91,11 @@
 							sbi(PORT_MOTOR,BF_R);\
 							sbi(DDRD,7)
 
+//
+//	Slave Enable
+//
+#define SLAVE_ENABLE_INIT	sbi(DDRC,4)
+#define SLAVE_ON			sbi(PORTC,4)
+#define SLAVE_OFF			cbi(PORTC,4)
+
 #endif /* COMMON_H_ */
