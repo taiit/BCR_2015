@@ -10,17 +10,21 @@
 #include "../lib/inc/hardware_feature.h"
 #include "unit_test/uint_test.h"
 #include "../lib/inc/LedBug.h"
-
-#define UNIT_TEST
+#include "../lib/inc/debug.h"
+//#define UNIT_TEST
 
 int main(void)
 {
 	vInitProgram();	
+	
     while(1)
     {
         #ifdef UNIT_TEST
 		vUnitTest();
 		#endif // UNIT_TEST		
+		//printf("\nHello");
+		_delay_ms(1000);
+		
     }
 }
 volatile uint16_t uiTimer0Cnt = 0;

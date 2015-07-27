@@ -5,7 +5,7 @@
  *  Author: Vo Huu Tai
  */ 
 #include "../inc/hardware_config.h"
-
+#include "../inc/debug.h"
 
 void vInitProgram(){
 	//disable local interrupt
@@ -25,6 +25,8 @@ void vInitProgram(){
 	vInitTimer1();
 	vInitTimer2();	
 	
+	//SERIAL
+	v_init_debug_via_uart();
 	//enable local interrupt
 	sei();
 }

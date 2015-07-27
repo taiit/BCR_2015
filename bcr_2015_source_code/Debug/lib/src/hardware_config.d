@@ -16,7 +16,14 @@ lib/src/hardware_config.d lib/src/hardware_config.o: \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\avr\include\util\delay.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\avr\include\math.h \
- c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\lib\gcc\avr\4.8.1\include\stdbool.h
+ c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\lib\gcc\avr\4.8.1\include\stdbool.h \
+ ../lib/src/../inc/debug.h \
+ c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\avr\include\stdio.h \
+ c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\lib\gcc\avr\4.8.1\include\stdarg.h \
+ c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\lib\gcc\avr\4.8.1\include\stddef.h \
+ c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\avr\include\stdlib.h \
+ ../lib/src/../inc/serial.h \
+ c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\avr\include\avr\pgmspace.h
 
 ../lib/src/../inc/hardware_config.h:
 
@@ -53,3 +60,17 @@ c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-tool
 c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\avr\include\math.h:
 
 c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\lib\gcc\avr\4.8.1\include\stdbool.h:
+
+../lib/src/../inc/debug.h:
+
+c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\avr\include\stdio.h:
+
+c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\lib\gcc\avr\4.8.1\include\stdarg.h:
+
+c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\lib\gcc\avr\4.8.1\include\stddef.h:
+
+c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\avr\include\stdlib.h:
+
+../lib/src/../inc/serial.h:
+
+c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\avr\include\avr\pgmspace.h:
