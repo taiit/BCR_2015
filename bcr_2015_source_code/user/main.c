@@ -22,7 +22,7 @@ int main(void)
         #ifdef UNIT_TEST
 		vUnitTest();
 		#endif // UNIT_TEST		
-		//printf("\nHello");
+		print("Hello: 0x%x\n",12);
 		_delay_ms(1000);
 		
     }

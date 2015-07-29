@@ -10,7 +10,8 @@
 #define DEBUG_H_
 
 
-#include <stdio.h>	//for printf
+//#include <stdio.h>	//for printf
+#include <stdarg.h>
 #include <stdbool.h> //for bool
 #include <stdlib.h> //for malloc
 #include "serial.h"
@@ -39,8 +40,10 @@ enum E_CMD{
 };
 extern void v_init_debug_via_uart(void);
 extern bool bDebugProcess(void);
-bool b_command_avaid();
+extern bool b_command_avaid();
 
 extern struct S_UART_PACKET *s_get_command(void);
+
+extern void print(const char *p, ...);
 
 #endif /* DEBUG_H_ */
