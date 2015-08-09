@@ -45,8 +45,8 @@ LICENSE:
  *  @author Peter Fleury pfleury@gmx.ch  http://jump.to/fleury
  */
 
-#ifndef __AVR_ATmega8__
-#define __AVR_ATmega8__
+#ifndef __AVR_ATmega16__
+#define __AVR_ATmega16__
 #endif 
 #include <avr/pgmspace.h>
 /**@{*/

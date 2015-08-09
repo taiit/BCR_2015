@@ -19,6 +19,7 @@ void vInitProgram(){
 	MOTOR_RIGHT_INIT;
 	SLAVE_ENABLE_INIT;
 	SLAVE_ON;
+	USB_DISABLE;
 	
 	//Timer and PWM
 	vInitTimer0();

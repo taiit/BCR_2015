@@ -10,41 +10,64 @@
 #define TEST_KALMAN_H_
 #include "../lib/mpu6050/Kalman.h"
 #include "../lib/mpu6050/mpu6050.h"
+#include "../lib/inc/led7seg.h"
 
-//#define BUG
+#define KALMAN_RUNING
 
 #define GET_ERROR(data) (int)((0) - (data))
 #define RAD_TO_DEG 57.29577951f
 struct KALMAN_DATA S_Kalman_X;
 uint32_t timer;
+float accY, accZ;
+float gyroX;
+float kalAngleX = 0.0; // Calculated angle using a Kalman filter
+uint8_t i2cData[10]; // Buffer for I2C data
+float roll;
 
-int vTestKalman(){
-		
-	float accY, accZ;
-	float gyroX;	
-	float kalAngleX = 0.0; // Calculated angle using a Kalman filter	
-	uint8_t i2cData[10]; // Buffer for I2C data
-	
-	#ifdef BUG
-	uint16_t cnt = 0;
-	mpu6050_readByte(MPU6050_RA_WHO_AM_I,i2cData);
-	printf("\nTest Kalman: 0x%x",i2cData[0]);
-	_delay_ms(1000);	
-	#endif	
-	
+#ifndef KALMAN_RUNING
+void vInitKalman(){
 	mpu6050_readBytes(0x3B, 6, i2cData);
 	//accX = (i2cData[0] << 8) | i2cData[1];
 	accY = (i2cData[2] << 8) | i2cData[3];
 	accZ = (i2cData[4] << 8) | i2cData[5];
-	double roll  = atan2(accY, accZ) * RAD_TO_DEG;
+	roll  = atan2(accY, accZ) * RAD_TO_DEG;
 	
 	setAngle(&S_Kalman_X,roll); // Set starting angle
-	Kalman(&S_Kalman_X); 
+	Kalman(&S_Kalman_X);
 	
-	timer = sys_clk_get_msec();	
+}
+#endif
+
+void vKalmanRuning(){		
+		
+	#ifdef KALMAN_RUNING
+	uint16_t cnt = 0;
+	uint8_t *ucPrtData = (uint8_t *)calloc(DEBUG_BUFF_SIZE,sizeof(uint8_t));
+	for(cnt = 0; cnt < 8; cnt++){
+		ucPrtData[cnt] = 49;
+	}
+	struct S_UART_PACKET command ;//(struct S_UART_PACKET*)malloc(sizeof(struct S_UART_PACKET));
+	command.ucInfo = 48;
+	command.ucDataLength = 8;
+	command.ucPtrData = ucPrtData;
+	vSendMSG(command);	
+	//mpu6050_readByte(MPU6050_RA_WHO_AM_I,i2cData);
+	//vPutStr("\nI am: ");
+	//vPutIntNum(i2cData[0],HEC_TYPE);
+	//_delay_ms(1000);		
+	mpu6050_readBytes(0x3B, 6, i2cData);
+	//accX = (i2cData[0] << 8) | i2cData[1];
+	accY = (i2cData[2] << 8) | i2cData[3];
+	accZ = (i2cData[4] << 8) | i2cData[5];
+	roll  = atan2(accY, accZ) * RAD_TO_DEG;
 	
-	//while(1)
-	{
+	setAngle(&S_Kalman_X,roll); // Set starting angle
+	Kalman(&S_Kalman_X);
+	
+	timer = sys_clk_get_msec();
+	while(1)	
+	{//it is main runing now...
+	#endif
 		//////////////////////////////////////////////////////////////////////////
 		//Caculate data
 		//////////////////////////////////////////////////////////////////////////
@@ -74,22 +97,48 @@ int vTestKalman(){
 		//////////////////////////////////////////////////////////////////////////
 		//Debug
 		//////////////////////////////////////////////////////////////////////////
-		#ifdef BUG		
-		if(sys_clk_get_msec() > (cnt + 100))//1ms*100 = 100ms
+		#ifdef KALMAN_RUNING		
+		if(sys_clk_get_msec() > (cnt + 10))//1ms*10 = 10ms
 		{
 			cnt = sys_clk_get_msec();
+			//vPutStr("X: ");
+			//vPutIntNum(GET_ERROR(kalAngleX),DEC_TYPE);		
+			//vSendMSG(command);	
+			bDebugProcess();
+			if(bMsgIsOK()){
+				switch (ucGetCMDInfo())
+				{
+					case CMD_UPDATE_LED_7SEG:		
+						vSetCMDInfo(CMD_NONE);
+						ucGetData(ucPrtData);	
+						vOutLed7Seg(ucPrtData[0] * 100 + ucPrtData[1]);
+						break;
+					case CMD_BEEP:
+						
+						break;				
+					default:
+						//vPutIntNum(ucGetCMDInfo(),DEC_TYPE);
+					break;
+				}//end witch();
+			}//end if bMsgIsOK         
 			
-			printf("\nX: %d",GET_ERROR(kalAngleX));
 		}
 		#endif
 		//////////////////////////////////////////////////////////////////////////
 		//END Debug
-		//////////////////////////////////////////////////////////////////////////
-		return (int)kalAngleX;
-		//_delay_us(1000);
+		//////////////////////////////////////////////////////////////////////////	
+		#ifdef KALMAN_RUNING	
+		_delay_us(100);
+		#endif
+	#ifdef KALMAN_RUNING
 	}//end while(1)	
+	#endif	
+	//return GET_ERROR(kalAngleX);	
 }
 
+int getAngleX(){
+	return (GET_ERROR(kalAngleX));
+}
 
 
 #endif /* TEST_KALMAN_H_ */

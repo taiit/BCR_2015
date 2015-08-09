@@ -12,7 +12,7 @@
 #include <avr/io.h>			
 #include <avr/interrupt.h>	
 #ifndef F_CPU
-#define F_CPU 16000000UL
+#define F_CPU 12000000UL
 #include <util/delay.h>
 #include <stdbool.h>
 //
@@ -22,6 +22,8 @@
 #define cbi(port, bit) (port) &= ~(1 << (bit))		// set bit
 #define sbi(port, bit) (port) |=  (1 << (bit))		// clear bit
 #define ibi(port,bit) (port) ^= (1 << (bit))		// invert bit
+#define PUBLIC
+#define PRIVATE
 //
 //Led debug register
 //
@@ -97,5 +99,8 @@
 #define SLAVE_ENABLE_INIT	sbi(DDRC,4)
 #define SLAVE_ON			sbi(PORTC,4)
 #define SLAVE_OFF			cbi(PORTC,4)
-
+// [Vo Huu Tai 9/8/2015 ]  Add, in running, USB must disable because PIN RX <=> PIN D-
+//Disable by PC7
+#define USB_DISABLE			cbi(DDRC,7);\
+							cbi(DDRC,7)
 #endif /* COMMON_H_ */

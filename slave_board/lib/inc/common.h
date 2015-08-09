@@ -25,6 +25,8 @@
 #define cbi(port, bit) (port) &= ~(1 << (bit))		// set bit
 #define sbi(port, bit) (port) |=  (1 << (bit))		// clear bit
 #define ibi(port,bit) (port) ^= (1 << (bit))		// invert bit
+#define PUBLIC
+#define PRIVATE
 //
 //Beep
 //

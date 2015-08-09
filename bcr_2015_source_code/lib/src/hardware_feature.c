@@ -29,3 +29,4 @@ uint8_t ucGetSwitch(){
 	//binData = 0000 1101 => 0000 1011 		
 	return binData;
 }
+
