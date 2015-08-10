@@ -1,16 +1,14 @@
-/*************************************************************************
-Title:    example program for the Interrupt controlled UART library
-Author:   Peter Fleury <pfleury@gmx.ch>   http://jump.to/fleury
-File:     $Id: test_uart.c,v 1.5 2012/09/14 17:59:08 peter Exp $
-Software: AVR-GCC 3.4, AVRlibc 1.4
-Hardware: any AVR with built-in UART, tested on AT90S8515 at 4 Mhz
-
-DESCRIPTION:
-          This example shows how to use the UART library uart.c
-
-*************************************************************************/
-
-
+/********************************************************************
+	created:	2015/08/10
+	created:	10:8:2015   19:00
+	filename: 	\bcr_2015_source_code\lib\src\debug.c
+	file path:	\bcr_2015_source_code\lib\src
+	file base:	debug
+	file ext:	c
+	author:		Vo Huu Tai
+	
+	purpose:	Use this module for transfer data via UART protocol.
+*********************************************************************/
 #include "../inc/debug.h"
 
 
@@ -21,12 +19,16 @@ volatile struct S_UART_PACKET sUartPacket;
 unsigned int *ptr_rx_buff, index_rx_buf;
 unsigned char *ptr_command_data;
 bool bIsDubugCommandCompelete = false;
-
-
-void v_init_debug_via_uart(){
+unsigned int uiOldDataLed7seg = 0;
+/*
+	@brief:		Initialize UART protocol and global variable
+	@param:		none
+	@return:	none 
+*/
+PUBLIC void v_init_debug_via_uart(){
 	
 	/*
-     *  Initialize UART library for debuger, pass baud rate and AVR CPU clock
+     *  Initialize UART library for debugger, pass baud rate and AVR CPU clock
      *  with the macro 
      *  UART_BAUD_SELECT() (normal speed mode )     
      */	
@@ -40,24 +42,28 @@ void v_init_debug_via_uart(){
 	vPutStr("vInitDubugViaUART()\n");
 	#endif	
 }
-
-bool bDebugProcess(void){
+/*
+	@brief:		This function have been handle of main function
+	@param:		none
+	@return:	none 
+*/
+PUBLIC bool bDebugProcess(void){
 	
-	// [Vo Huu Tai 8/8/2015 ]  Note!! unsigned int only, i dont know why now .. :'(
+	// [Vo Huu Tai 8/8/2015 ]  Note!! unsigned int only, i don't know why ?? .. :'(
 	unsigned int ucUartDataIn;
 	ucUartDataIn = uart_getc();	
 
 	if(ucUartDataIn & UART_NO_DATA){
-		return false; //nothing in uart buffer, return
+		return false; //nothing in UART buffer, return
 	} else{
 		#ifdef _IN_FILE_BUD_
 		//uart_putc(ucUartDataIn);
 		#endif
-		if(ucUartDataIn == '>'){ //first
+		if(ucUartDataIn == '>'){ //first UART data incoming
 			index_rx_buf = 0;
 			bIsDubugCommandCompelete = false;
 		}
-		else if(ucUartDataIn == '<'){//end
+		else if(ucUartDataIn == '<'){//end UART data incoming
 			
 			sUartPacket.ucInfo = ptr_rx_buff[0];
 			sUartPacket.ucDataLength = ptr_rx_buff[1];
@@ -90,23 +96,47 @@ bool bDebugProcess(void){
 
 	return false;
 }
-
-bool bMsgIsOK(){
+/*
+	@brief:		Check msg is OK
+	@param:		none
+	@return:	True: msg ready be used 
+*/
+PUBLIC bool bMsgIsOK(){
 	if(bIsDubugCommandCompelete){
 		if((sUartPacket.ucCheckSum | 0xff) == 0xff)return true;
 	}	
 	return false;
 }
-uint8_t ucGetCMDInfo(){
+/*
+	@brief:		Get command info
+	@param:		none
+	@return:	command info 
+*/
+PUBLIC uint8_t ucGetCMDInfo(){
 	return sUartPacket.ucInfo;
 }
-void vSetCMDInfo(uint8_t ucCMDType){
+/*
+	@brief:		Set CMD info
+	@param:		command info
+	@return:	none 
+*/
+PUBLIC void vSetCMDInfo(uint8_t ucCMDType){
 	sUartPacket.ucInfo = ucCMDType;
 }
-uint8_t ucGetDataLength(){
+/*
+	@brief:		Get data length of S_UART_PACKET
+	@param:		none
+	@return:	data length 
+*/
+PUBLIC uint8_t ucGetDataLength(){
 	return sUartPacket.ucDataLength;
 }
-void ucGetData(uint8_t *ucPrtData){
+/*
+	@brief:		Get data of S_UART_PACKET
+	@param:		pointer to saving data
+	@return:	none 
+*/
+PUBLIC void ucGetData(uint8_t *ucPrtData){
 	// [Vo Huu Tai 9/8/2015 ]  why
 	//ucPrtData = sUartPacket.ucPtrData; //why, it not work
 	for (int i = 0; i < sUartPacket.ucDataLength; i++)
@@ -115,7 +145,7 @@ void ucGetData(uint8_t *ucPrtData){
 	}
 	#ifdef _IN_FILE_BUD_
 	vPutStr("ucGetData() START\n");	
-	// info, length, checkusm
+	// info, length, checksum
 	vPutStr("Packet Info: "); vPutIntNum(sUartPacket.ucInfo,DEC_TYPE);
 	vPutStr("Data Length: "); vPutIntNum(sUartPacket.ucDataLength,DEC_TYPE);
 	vPutStr("Check sum: ");	vPutIntNum(sUartPacket.ucCheckSum,DEC_TYPE);
@@ -149,7 +179,7 @@ void print(const char *p, ...){
 					zeroPadding = 1;++p;
 				}
 				formatLen = 0;
-				while (*++p) {
+				while (*++p) { 
 					switch (*p) {
 						case '%':
 							uart_putc(*p);
@@ -254,20 +284,23 @@ PRIVATE void vOutUHex(unsigned int uiNum){
 	}
 }
 /*
-	@brief:		Internal function, Cal checkum
+	@brief:		Internal function, Cal checksum
 	@param:		UART PACKET
 	@return:	Check sum of data  
 	@Note:		Mine, check sum for only data, not for type and length,..
 */
 PRIVATE uint8_t ucCalChecSum(struct S_UART_PACKET sPacket){
 	
-	uint8_t ucRet = 0;
-	 for (int i = 0; i < sPacket.ucDataLength; i++)
-	 {
+	int ucRet = 0;
+	
+	ucRet += sPacket.ucInfo;
+	ucRet += sPacket.ucDataLength;
+	for (int i = 0; i < sPacket.ucDataLength; i++)
+	{
 		 ucRet += sPacket.ucPtrData[i];
-	 }
+	}
 	 ucRet ^= 0xFF;
-	 return ucRet;
+	 return (uint8_t) ucRet;
 	
 }
 /*
@@ -292,13 +325,13 @@ PUBLIC void vPutIntNum(int iNum,uint8_t ucFomart){
 	if(iNum < 0){	//negate
 		uart_putc('-');
 		iNum = - iNum;
-		ucFomart = DEC_TYPE; //if Negate, Foramt always is DEC_TYPE
+		ucFomart = DEC_TYPE; //if Negate, format always is DEC_TYPE
 	}
 	if(ucFomart == 0){	//Decimal format
 		
 		vOutUDec(iNum);
 	}
-	else{				// hexadecimal
+	else{				//Hexadecimal
 		uart_putc('0');
 		uart_putc('x');
 		vOutUHex(iNum);
@@ -307,21 +340,33 @@ PUBLIC void vPutIntNum(int iNum,uint8_t ucFomart){
 	uart_putc('\n');	
 }
 /*
-	@brief:		Sending msg via uart
+	@brief:		Sending msg via UART
 	@param:		msg to send
 	@return:	none 
 */
 PUBLIC void vSendMSG(struct S_UART_PACKET K_MSG){
-	
+	#if 0
+	vPutStr("vSendMSG() START\n");
+	// info, length, checksum
+	vPutStr("Packet Info: "); vPutIntNum(K_MSG.ucInfo,DEC_TYPE);
+	vPutStr("Data Length: "); vPutIntNum(K_MSG.ucDataLength,DEC_TYPE);
+	vPutStr("Check sum: ");	vPutIntNum(K_MSG.ucCheckSum,DEC_TYPE);
+	// command data
+	vPutStr("Data\n");
+	for(uint8_t i = 0; i < K_MSG.ucDataLength; i++){
+		vPutIntNum(K_MSG.ucPtrData[i],DEC_TYPE);
+	}
+	vPutStr("vSendMSG() END\n");
+	#endif
 	/**
-	Uart msg format
+	UART msg format
 	
 	       >	type	datalength		data[0:length]	checksum	<
 		   
 		   >	0			1			48				xx		<
 	
 	*/
-	char *ucPtrDataSend = (char*)malloc(sizeof(char));
+	char *ucPtrDataSend = (char*)calloc(DEBUG_BUFF_SIZE,sizeof(char));
 	
 	ucPtrDataSend[0] = '>';
 	ucPtrDataSend[1] = K_MSG.ucInfo;
@@ -333,7 +378,64 @@ PUBLIC void vSendMSG(struct S_UART_PACKET K_MSG){
 	
 	ucPtrDataSend[3 + K_MSG.ucDataLength] = ucCalChecSum(K_MSG);
 	ucPtrDataSend[4 + K_MSG.ucDataLength] = '<';	
-	ucPtrDataSend[5 + K_MSG.ucDataLength] = '\0';
-	vPutStr(ucPtrDataSend);
+	
+	
+	for(uint8_t i = 0; i < (K_MSG.ucDataLength + 5); i++){
+		uart_putc(ucPtrDataSend[i]);
+	}
+	
+	free(ucPtrDataSend);
 }
 // [Vo Huu Tai 8/8/2015 ]  end add new
+/*
+	@brief:		Send data data' LED 7 segment to slave board
+	@param:		Data to be sent
+	@return:	none 
+*/
+PUBLIC void vOutLed7(unsigned int uiData){
+	if(uiData == uiOldDataLed7seg)return;
+	uiOldDataLed7seg = uiData;
+	uint8_t *ucPrtData = (uint8_t *)calloc(DEBUG_BUFF_SIZE,sizeof(uint8_t));
+	ucPrtData[0] = uiData / 100;
+	ucPrtData[1] = uiData % 100;
+	struct S_UART_PACKET msg ;
+	msg.ucInfo = CMD_UPDATE_LED_7SEG;
+	msg.ucDataLength = 2;
+	msg.ucPtrData = ucPrtData;
+	vSendMSG(msg);
+	free(ucPrtData);
+}
+/*
+	@brief:		send msg control beep
+	@param:		time beep in ms, form 000 to 9999 ms
+	@return:	none 
+*/
+PUBLIC void vBeep(unsigned int uiBeepTime_ms){
+	uint8_t *ucPrtData = (uint8_t *)calloc(DEBUG_BUFF_SIZE,sizeof(uint8_t));
+	if(uiBeepTime_ms > 9999)uiBeepTime_ms = 9999;
+	ucPrtData[0] = uiBeepTime_ms / 100;
+	ucPrtData[1] = uiBeepTime_ms % 100;
+	struct S_UART_PACKET msg ;
+	msg.ucInfo = CMD_BEEP;
+	msg.ucDataLength = 2;
+	msg.ucPtrData = ucPrtData;
+	vSendMSG(msg);
+	free(ucPrtData);
+}
+/*
+	@brief:		Get inclined of mpu6050 board
+	@param:		none
+	@return:	inclined of sensor 
+*/
+PUBLIC int iGetInlined(){
+	uint8_t *ucPrtData = (uint8_t *)calloc(DEBUG_BUFF_SIZE,sizeof(uint8_t));	
+	int ret = 0;
+	ucPrtData[0] = 0;	
+	struct S_UART_PACKET msg ;
+	msg.ucInfo = CMD_SENSOR;
+	msg.ucDataLength = 1;
+	msg.ucPtrData = ucPrtData;
+	vSendMSG(msg);	
+	free(ucPrtData);	
+	return ret;
+}

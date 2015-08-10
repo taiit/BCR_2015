@@ -47,10 +47,7 @@ void vKalmanRuning(){
 		ucPrtData[cnt] = 49;
 	}
 	struct S_UART_PACKET command ;//(struct S_UART_PACKET*)malloc(sizeof(struct S_UART_PACKET));
-	command.ucInfo = 48;
-	command.ucDataLength = 8;
-	command.ucPtrData = ucPrtData;
-	vSendMSG(command);	
+	
 	//mpu6050_readByte(MPU6050_RA_WHO_AM_I,i2cData);
 	//vPutStr("\nI am: ");
 	//vPutIntNum(i2cData[0],HEC_TYPE);
@@ -71,25 +68,27 @@ void vKalmanRuning(){
 		//////////////////////////////////////////////////////////////////////////
 		//Caculate data
 		//////////////////////////////////////////////////////////////////////////
+		if(sys_clk_get_msec() > (cnt + 5))//1ms*5 = 5ms
+		{
+			cnt = sys_clk_get_msec();
+			mpu6050_readBytes(0x3B, 10, i2cData);
+			//accX = ((i2cData[0] << 8) | i2cData[1]);
+			accY = ((i2cData[2] << 8) | i2cData[3]);
+			accZ = ((i2cData[4] << 8) | i2cData[5]);
+			gyroX = (i2cData[8] << 8) | i2cData[9];		
+			// gyroZ = (i2cData[12] << 8) | i2cData[13];
+			float dt = (float)(sys_clk_get_msec() - timer) / 1000; // Calculate delta time
+			timer = sys_clk_get_msec();
 		
-		mpu6050_readBytes(0x3B, 10, i2cData);
-		//accX = ((i2cData[0] << 8) | i2cData[1]);
-		accY = ((i2cData[2] << 8) | i2cData[3]);
-		accZ = ((i2cData[4] << 8) | i2cData[5]);
-		gyroX = (i2cData[8] << 8) | i2cData[9];		
-		// gyroZ = (i2cData[12] << 8) | i2cData[13];
-		float dt = (float)(sys_clk_get_msec() - timer) / 1000; // Calculate delta time
-		timer = sys_clk_get_msec();
-		
-		roll  = atan2(accY, accZ) * RAD_TO_DEG;
-		double gyroXrate = gyroX / 131.0; // Convert to deg/s
-		// This fixes the transition problem when the accelerometer angle jumps between -180 and 180 degrees
-		if ((roll < -90 && kalAngleX > 90) || (roll > 90 && kalAngleX < -90)) {
-			setAngle(&S_Kalman_X,roll);
-			kalAngleX = roll;
-		} else
-		kalAngleX = getAngle(&S_Kalman_X,roll, gyroXrate, dt); // Calculate the angle using a Kalman filter
-
+			roll  = atan2(accY, accZ) * RAD_TO_DEG;
+			double gyroXrate = gyroX / 131.0; // Convert to deg/s
+			// This fixes the transition problem when the accelerometer angle jumps between -180 and 180 degrees
+			if ((roll < -90 && kalAngleX > 90) || (roll > 90 && kalAngleX < -90)) {
+				setAngle(&S_Kalman_X,roll);
+				kalAngleX = roll;
+			} else
+			kalAngleX = getAngle(&S_Kalman_X,roll, gyroXrate, dt); // Calculate the angle using a Kalman filter
+		}
 		//////////////////////////////////////////////////////////////////////////
 		//End caculator data
 		//////////////////////////////////////////////////////////////////////////
@@ -97,10 +96,12 @@ void vKalmanRuning(){
 		//////////////////////////////////////////////////////////////////////////
 		//Debug
 		//////////////////////////////////////////////////////////////////////////
-		#ifdef KALMAN_RUNING		
-		if(sys_clk_get_msec() > (cnt + 10))//1ms*10 = 10ms
+		#ifdef KALMAN_RUNING	
+		#if 0	
+		if(sys_clk_get_msec() > (cnt + 1))//1ms*1 = 1ms
+		#endif
 		{
-			cnt = sys_clk_get_msec();
+			//cnt = sys_clk_get_msec();
 			//vPutStr("X: ");
 			//vPutIntNum(GET_ERROR(kalAngleX),DEC_TYPE);		
 			//vSendMSG(command);	
@@ -114,8 +115,25 @@ void vKalmanRuning(){
 						vOutLed7Seg(ucPrtData[0] * 100 + ucPrtData[1]);
 						break;
 					case CMD_BEEP:
-						
-						break;				
+						vSetCMDInfo(CMD_NONE);
+						ucGetData(ucPrtData);
+						vBeepSlaver(ucPrtData[0] * 100 + ucPrtData[1]);
+						break;		
+					case CMD_SENSOR:	//send kalAngleX to master board
+						vSetCMDInfo(CMD_NONE);
+						command.ucInfo = CMD_SENSOR;
+						command.ucDataLength = 2;
+						kalAngleX = -kalAngleX;
+						if (kalAngleX < 0){ //negative
+							ucPrtData[0] = 1;
+							ucPrtData[1] = -kalAngleX;	
+						}
+						else{
+							ucPrtData[0] = 0;
+							ucPrtData[1] = kalAngleX;	
+						}										
+						command.ucPtrData = ucPrtData;
+						vSendMSG(command);							
 					default:
 						//vPutIntNum(ucGetCMDInfo(),DEC_TYPE);
 					break;
@@ -127,9 +145,7 @@ void vKalmanRuning(){
 		//////////////////////////////////////////////////////////////////////////
 		//END Debug
 		//////////////////////////////////////////////////////////////////////////	
-		#ifdef KALMAN_RUNING	
-		_delay_us(100);
-		#endif
+		
 	#ifdef KALMAN_RUNING
 	}//end while(1)	
 	#endif	

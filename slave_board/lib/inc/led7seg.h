@@ -22,5 +22,6 @@ extern void vScanLed();
 */
 extern void vOutLed7Seg(const unsigned int uiDataOut);
 
+extern void vBeepSlaver(unsigned int uiBeepTime);
 
 #endif /* LED7SEG_H_ */

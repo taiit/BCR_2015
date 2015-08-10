@@ -35,6 +35,8 @@
 #define PIN_BEEP		4
 #define BEEP_INIT		sbi(DDR_BEEP,PIN_BEEP);\
 						cbi(PORT_BEEP,PIN_BEEP)
+#define BEEP_ON			sbi(PORT_BEEP,PIN_BEEP)
+#define BEEP_OFF		cbi(PORT_BEEP,PIN_BEEP)
 //
 //Led 7 SEG
 //

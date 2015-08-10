@@ -1,9 +1,14 @@
-/*
- * LedBug.c
- *
- * Created: 7/22/2015 8:16:42 PM
- *  Author: Vo Huu Tai
- */ 
+/********************************************************************
+	created:	2015/08/10
+	created:	10:8:2015   19:19
+	filename: 	\bcr_2015_source_code\lib\src\LedBug.c
+	file path:	\bcr_2015_source_code\lib\src
+	file base:	LedBug
+	file ext:	c
+	author:		Vo Huu Tai
+	
+	purpose:	This module control led bug
+*********************************************************************/
 #include "../inc/LedBug.h"
 
 volatile uint8_t ucgLedState = LED_STATE_NONE;
@@ -19,8 +24,7 @@ uint8_t ucLedEvent = LED_NONE;
 	@param:		none
 	@return:	none 
 */
-
-void vPeriodicDec(){	
+PRIVATE void vPeriodicDec(){	
 	if(uigLedPeriodic == 0 ){
 		uigLedPeriodic = NO_LIMIT;
 	}else
@@ -31,7 +35,7 @@ void vPeriodicDec(){
 	@param:		none
 	@return:	none 
 */
-void vIntervalDec(){
+PRIVATE void vIntervalDec(){
 	
 	if(uigLedInterval == 0){
 		uigLedInterval = NO_LIMIT;
@@ -44,7 +48,7 @@ void vIntervalDec(){
 	@param:		led event
 	@return:	Led Periodic counter
 */
-uint16_t ucPareLedEvent(uint8_t led_event){
+PRIVATE uint16_t ucPareLedEvent(uint8_t led_event){
 	uint16_t uiRet = NO_LIMIT;
 	switch(led_event){
 		case LED_FAST_BLINK:			
@@ -55,15 +59,20 @@ uint16_t ucPareLedEvent(uint8_t led_event){
 			break;
 		case LED_STARTUP_COMPELETE:			
 			uigLedInterval = LED_50_MS;	
-			uiRet = LED_10_S;	
+			uiRet = LED_100_MS;	
 			break;		
 		default:			
 			break;
 	}
 	return uiRet;
 }
-//
-void vLedFlash(){
+//end internal function
+/*
+	@brief:		This function will control led, must called on ISR function
+	@param:		none
+	@return:	none 
+*/
+PUBLIC void vLedFlash(){
 	uint8_t ucStateTemp = ucgLedState;	
 	
 	switch(ucStateTemp){
@@ -101,8 +110,12 @@ void vLedFlash(){
 	}		
 	ucgLedState = ucStateTemp;		
 }
-
-extern void vLedCtrl(uint8_t E_EVENT){
+/*
+	@brief:		Call this function to control led
+	@param:		event of led
+	@return:	none 
+*/
+PUBLIC void vLedCtrl(uint8_t E_EVENT){
 	
 	uigLedPeriodic = ucPareLedEvent(E_EVENT);
 	ucgLedState = LED_STATE_BLINK;	

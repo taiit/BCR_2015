@@ -5,6 +5,7 @@
  *  Author: Vo Huu Tai
  */ 
 #include "../inc/hardware_feature.h"
+#include "../inc/debug.h"
 
 bool bKeyIsPress(uint8_t ucKeyID){
 	uint8_t mask = (1<<ucKeyID);
@@ -12,10 +13,11 @@ bool bKeyIsPress(uint8_t ucKeyID){
 	if((PIN_KEY & mask) != mask){
 		_delay_ms(10);
 		if((PIN_KEY & mask) != mask){
-			LED_BUG_ON;
+			//LED_BUG_ON;
 			_delay_ms(10);
 			while((PIN_KEY&mask)!=mask);//waiting for key is released
-			LED_BUG_OFF;
+			//LED_BUG_OFF;
+			vBeep(30);
 			return true;
 		}
 	}

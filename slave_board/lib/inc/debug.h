@@ -17,11 +17,7 @@
 #include "serial.h"
 #include "common.h"
 
-#ifndef F_CPU
-#define F_CPU 12000000UL
-#endif
-
-#define _IN_FILE_BUD_
+//#define _IN_FILE_BUD_
 /* uart define. baud: 19200 */
 #define UART_BAUD_RATE		19200UL
 #define DEC_TYPE			0
@@ -40,6 +36,7 @@ struct S_UART_PACKET{
  enum E_CMD_TYPE{
 	CMD_UPDATE_LED_7SEG,
 	CMD_BEEP,
+	CMD_SENSOR,
 	CMD_NONE,
 };
 
@@ -62,4 +59,8 @@ extern void vPutIntNum(int iNum,uint8_t ucFomart);
 extern void vSendMSG(struct S_UART_PACKET K_MSG);
 // [Vo Huu Tai 8/8/2015 ]  End add
 
+// [Vo Huu Tai 9/8/2015 ]  Add for master
+extern void vOutLed7(unsigned int uiData);
+extern void vBeep(unsigned int uiBeepTime);
+extern int iGetInlined();
 #endif /* DEBUG_H_ */

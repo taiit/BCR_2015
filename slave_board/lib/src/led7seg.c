@@ -9,8 +9,16 @@
 uint8_t g_uc_led7seg_index;
 uint16_t g_ui_data_led7seg = 0;
 
-void vOutLed7Seg(const uint16_t uiDataOut){
+PUBLIC void vOutLed7Seg(const uint16_t uiDataOut){
 	g_ui_data_led7seg = uiDataOut;	
+}
+
+PUBLIC void vBeepSlaver(unsigned int uiBeepTime){
+	BEEP_ON;
+	while(uiBeepTime--){
+		_delay_ms(1);
+	}
+	BEEP_OFF;
 }
 
 void vScanLed(){

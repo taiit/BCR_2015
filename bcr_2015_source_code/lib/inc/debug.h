@@ -36,6 +36,7 @@ struct S_UART_PACKET{
  enum E_CMD_TYPE{
 	CMD_UPDATE_LED_7SEG,
 	CMD_BEEP,
+	CMD_SENSOR,
 	CMD_NONE,
 };
 
@@ -60,4 +61,6 @@ extern void vSendMSG(struct S_UART_PACKET K_MSG);
 
 // [Vo Huu Tai 9/8/2015 ]  Add for master
 extern void vOutLed7(unsigned int uiData);
+extern void vBeep(unsigned int uiBeepTime);
+extern int iGetInlined();
 #endif /* DEBUG_H_ */
