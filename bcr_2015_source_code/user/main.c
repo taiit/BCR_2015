@@ -16,19 +16,28 @@ volatile uint16_t uiTimer0Cnt = 0;
 
 void vAssassin(){
 	// [Vo Huu Tai 10/8/2015 ]  over 1ms
-	uiTimer0Cnt++;
+	if(++uiTimer0Cnt >= 10)uiTimer0Cnt = 0;
 	switch(uiTimer0Cnt){//I wish it is called very 10ms		
-		case 10:
+		case 0:
 			iGetInlined();
 			break;
-		case 20:
-		case 30:
-		case 40:
-		case 50:
-		case 60:
-		case 70:
-		case 80:
-		case 90:
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		case 6:
+			break;
+		case 7:
+			break;
+		case 8:
+			break;
+		case 9:
 			vLedFlash();
 			uiTimer0Cnt = 0;
 		break;

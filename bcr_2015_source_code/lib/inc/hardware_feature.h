@@ -24,4 +24,12 @@ extern bool bKeyIsPress(uint8_t ucKeyID);
 
 extern uint8_t ucGetSwitch();
 
+/*TaiVH1 -- Aug 11, 2015  brief: Add for control motor and servo*/
+extern void vMotor(int iSpeedLeft, int iSpeedRight);
+extern void vSetBF(bool bBFMotorLeft,bool bBMotorRight);
+extern void vServo(int iAngle);
+extern uint8 ucGetSensorData();
+extern int iGetSensorPosition();
+bool bStartBarIsStart();
+/*TaiVH1 -- Aug 11, 2015  brief: End add for motor and servo*/
 #endif /* HARDWARE_FEATURE_H_ */

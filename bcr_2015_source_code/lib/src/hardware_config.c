@@ -20,6 +20,7 @@ void vInitProgram(){
 	SLAVE_ENABLE_INIT;
 	SLAVE_ON;
 	USB_DISABLE;
+	SENSOR_INTIT;
 	
 	//Timer and PWM
 	vInitTimer0();
@@ -54,7 +55,7 @@ void vInitTimer1(){
 	*/
 	TCCR1A = (1 << WGM11) | (1 << COM1A1) | (1 << COM1B1);
 	TCCR1B = (1 << WGM13) | (1 << WGM12) | (1 << CS11);
-	ICR1 = 22500;
+	ICR1 = PWM_ICR1_MAX;
 	OCR1B = 2000;
 }
 void vInitTimer2(){
@@ -67,5 +68,5 @@ void vInitTimer2(){
 				=> prescaler = 256.
 	*/
 	TCCR2 = (1 << WGM21) | (1 << WGM20) | (1 << COM21) | (1 << CS22) | (1 << CS21);
-	OCR2 = 100;
+	OCR2 = PWM_ICR2_MAX;
 }
