@@ -28,7 +28,7 @@ extern uint8_t ucGetSwitch();
 extern void vMotor(int iSpeedLeft, int iSpeedRight);
 extern void vSetBF(bool bBFMotorLeft,bool bBMotorRight);
 extern void vServo(int iAngle);
-extern uint8 ucGetSensorData();
+extern uint8_t ucGetSensorData();
 extern int iGetSensorPosition();
 bool bStartBarIsStart();
 /*TaiVH1 -- Aug 11, 2015  brief: End add for motor and servo*/

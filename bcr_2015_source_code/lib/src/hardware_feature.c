@@ -72,7 +72,7 @@ void vServo(int iAngle){
 	OCR1A = SERVO_CENTER + iAngle*SERVO_ANGLE_STEP;
 }
 
-uint8 ucGetSensorData(){
+uint8_t ucGetSensorData(){
 
 	uint8_t ucSensorRawData = PORTA;
 	/*Check start bar bit*/
@@ -137,7 +137,7 @@ int iGetSensorPosition(){
 	return iPosition;
 }
 bool bStartBarIsStart(){
-	if(bit_is_clear(PORTA,SENSOR_BIT))return true;
+	if(bit_is_clear(PORTA,START_BAR_BIT))return true;
 	return false;
 }
 /*TaiVH1 -- Aug 11, 2015  brief: End add for motor and servo*/

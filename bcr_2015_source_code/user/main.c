@@ -81,7 +81,13 @@ int main(void)
 		}
 		
 		if(bKeyIsPress(KEY1)){
-			
+			if(bStartBarIsStart())vLedCtrl(LED_STARTUP_COMPELETE);
+		}
+		if(bKeyIsPress(KEY2)){
+			vMotor(60,60);
+		}
+		if(bKeyIsPress(KEY3)){
+			vMotor(10,10);
 		}
     }
 }
