@@ -13,6 +13,7 @@ enum{
 	LED_NONE,
 	LED_FAST_BLINK,
 	LED_SLOW_BLINK,
+	LED_START_BAR_OK,
 	LED_STARTUP_COMPELETE	
 }LED_EVENT;
 
@@ -28,7 +29,9 @@ enum{
 
 #define LED_50_MS		5		// 10ms * 5 = 50ms
 #define LED_100_MS		10		// 10ms * 10 = 100ms
-#define LED_10_S		1000	// 10ms * 1000 = 10000ms
+#define LED_500_MS		50		// 10ms * 50 = 500ms
+#define LED_1_S			100		// 10ms * 100 = 1s
+#define LED_10_S		1000	// 10ms * 1000 = 10s
 /*
 	@brief:		Scan Led Bug. Call after every 10ms
 	@param:		none

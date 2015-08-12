@@ -427,15 +427,14 @@ PUBLIC void vBeep(unsigned int uiBeepTime_ms){
 	@param:		none
 	@return:	inclined of sensor 
 */
-PUBLIC int iGetInlined(){
+PUBLIC void vInclinedPoll(){
 	uint8_t *ucPrtData = (uint8_t *)calloc(DEBUG_BUFF_SIZE,sizeof(uint8_t));	
-	int ret = 0;
+	
 	ucPrtData[0] = 0;	
 	struct S_UART_PACKET msg ;
 	msg.ucInfo = CMD_SENSOR;
 	msg.ucDataLength = 1;
 	msg.ucPtrData = ucPrtData;
 	vSendMSG(msg);	
-	free(ucPrtData);	
-	return ret;
+	free(ucPrtData);		
 }

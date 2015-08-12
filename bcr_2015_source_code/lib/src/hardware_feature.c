@@ -18,6 +18,7 @@ bool bKeyIsPress(uint8_t ucKeyID){
 			while((PIN_KEY&mask)!=mask);//waiting for key is released
 			//LED_BUG_OFF;
 			vBeep(30);
+			_delay_ms(10);
 			return true;
 		}
 	}
@@ -74,7 +75,7 @@ void vServo(int iAngle){
 
 uint8_t ucGetSensorData(){
 
-	uint8_t ucSensorRawData = PORTA;
+	uint8_t ucSensorRawData = PINA;
 	/*Check start bar bit*/
 	#if	(START_BAR_BIT == 7)
 		ucSensorRawData &= 0x7f;
@@ -137,7 +138,39 @@ int iGetSensorPosition(){
 	return iPosition;
 }
 bool bStartBarIsStart(){
-	if(bit_is_clear(PORTA,START_BAR_BIT))return true;
+	if(bit_is_clear(PINA,START_BAR_BIT))return true;
 	return false;
 }
+int iGetInclined(){
+	uint8_t *ucBuff = (uint8_t*)calloc(DEBUG_BUFF_SIZE,sizeof(uint8_t));
+	int iRet = INVALID_NUM;
+	if(bMsgIsOK()){
+		switch (ucGetCMDInfo())
+		{
+			case CMD_SENSOR:
+			vSetCMDInfo(CMD_NONE);
+			ucGetData(ucBuff);
+			if (ucBuff[0] == 1){//negative
+				iRet = -ucBuff[1];
+				//vOutLed7((-iRet + 1000));
+			}
+			if(ucBuff[0] == 0){
+				iRet = ucBuff[1];
+				//vOutLed7(iRet);
+			}		
+			break;
+			default: break;
+		}
+	}
+	free(ucBuff);
+	return iRet;
+}
 /*TaiVH1 -- Aug 11, 2015  brief: End add for motor and servo*/
+
+// [Vo Huu Tai 12/8/2015 ]  Add for inclined and tester
+
+bool isTester(){
+	if((PIN_SWITCH&(1<<SW_TEST)) == (1<<SW_TEST) )return false;
+	return true;
+}
+// [Vo Huu Tai 12/8/2015 ]  end add for inclined and tester

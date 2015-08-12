@@ -59,8 +59,12 @@ PRIVATE uint16_t ucPareLedEvent(uint8_t led_event){
 			break;
 		case LED_STARTUP_COMPELETE:			
 			uigLedInterval = LED_50_MS;	
-			uiRet = LED_100_MS;	
-			break;		
+			uiRet = LED_1_S;	
+			break;	
+		case LED_START_BAR_OK:
+			uigLedInterval = LED_50_MS;
+			uiRet = LED_500_MS;
+			break;	
 		default:			
 			break;
 	}

@@ -61,6 +61,7 @@
 #define SW2		2
 #define SW3		1
 #define SW4		0
+#define SW_TEST	6
 
 //input and use pull up resistor
 #define SWITCH_INIT	cbi(DDR_SWITCH,SW1);\
@@ -70,7 +71,9 @@
 					cbi(DDR_SWITCH,SW3);\
 					sbi(PORT_SWITCH,SW3);\
 					cbi(DDR_SWITCH,SW4);\
-					sbi(PORT_SWITCH,SW4)
+					sbi(PORT_SWITCH,SW4);\
+					cbi(DDR_SWITCH,SW_TEST);\
+					sbi(PORT_SWITCH,SW_TEST)
 //
 //	Motor Left and servo
 //	Timer 1. OCR1B ==> PWM0. OCR1A ==> PWM1. Duty = 20ms
@@ -110,5 +113,9 @@
 #define PWM_ICR2_MAX		100
 #define SERVO_ANGLE_STEP	0
 #define SERVO_CENTER		0
-
+// [Vo Huu Tai 12/8/2015 ]  
+#define INVALID_NUM			0xFFFF
+#define TEST_NONE					0
+#define TEST_SENSOR_START_BAR		1
+#define TEST_MOTOR					2
 #endif /* COMMON_H_ */

@@ -31,5 +31,7 @@ extern void vServo(int iAngle);
 extern uint8_t ucGetSensorData();
 extern int iGetSensorPosition();
 bool bStartBarIsStart();
+int iGetInclined();
+bool isTester();
 /*TaiVH1 -- Aug 11, 2015  brief: End add for motor and servo*/
 #endif /* HARDWARE_FEATURE_H_ */

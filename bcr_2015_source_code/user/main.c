@@ -19,7 +19,7 @@ void vAssassin(){
 	if(++uiTimer0Cnt >= 10)uiTimer0Cnt = 0;
 	switch(uiTimer0Cnt){//I wish it is called very 10ms		
 		case 0:
-			iGetInlined();
+			vInclinedPoll();
 			break;
 		case 1:
 			break;
@@ -39,57 +39,92 @@ void vAssassin(){
 			break;
 		case 9:
 			vLedFlash();
-			uiTimer0Cnt = 0;
 		break;
 	}
 }
+
 int main(void)
 {
-	uint8_t *ucBuff = (uint8_t*)calloc(DEBUG_BUFF_SIZE,sizeof(uint8_t));
-	int iSensorData;
-	vInitProgram();	
 	
+	int iTempData = 0,iLeft = 0,iRight = 0;
+	uint8_t ucTestPattern = TEST_NONE;
+	vInitProgram();		
 	_delay_ms(1000);//waiting for slaver ready, remove it ...
 	/**
 	       vOutLed7(1234);		// Xuat so 1234		   
 		   vBeep(100);			// Phat ra tieng beeep 100 ms
+		   vMotor(10,-10);		//	Speed Left = 10, speed right = -10
+		   
 	*/	
     vOutLed7(1234);
 	vBeep(100);	
-	
+	vLedCtrl(LED_STARTUP_COMPELETE);
 	while(1)
     {       		
 		bDebugProcess();
-		if(bMsgIsOK()){
-			switch (ucGetCMDInfo())
-			{
-				case CMD_SENSOR:
-					vSetCMDInfo(CMD_NONE);
-					ucGetData(ucBuff);
-					if (ucBuff[0] == 1){//negative
-						iSensorData = -ucBuff[1];
-						vOutLed7((-iSensorData + 1000));
+		if(isTester()){//check switch tester function
+		//Test go here
+			switch(ucTestPattern){
+				case TEST_SENSOR_START_BAR:
+					if(bKeyIsPress(KEY3)) ucTestPattern = TEST_NONE;//exit from test
+					if(bKeyIsPress(KEY1)){
+						if(bStartBarIsStart())vLedCtrl(LED_START_BAR_OK);//Test start bar
 					}
-					if(ucBuff[0] == 0){
-						iSensorData = ucBuff[1];
-						vOutLed7(iSensorData);
+					//alway test sensor Test sensor
+					//iTempData = iGetSensorPosition();
+					//if(iTempData >= 0){
+					//	vOutLed7(iTempData);
+					//	}else{
+					//	vOutLed7(-iTempData + 1000);
+					//}
+					break;
+				case TEST_MOTOR:
+					if(bKeyIsPress(KEY3)){
+						 ucTestPattern = TEST_NONE;//exit from test
+						 vMotor(0,0);
+					}
+					if(bKeyIsPress(KEY1)){
+						iLeft++;
+						iRight++;
+					}
+					if(bKeyIsPress(KEY2)){
+						iLeft--;
+						iRight--;
+					}
+					vMotor(iLeft,iRight);
+					break;
+				case TEST_NONE://DEFAULT ALWAYS TEST INCLINED
+					
+					if(bKeyIsPress(KEY1)){//KEY1 - SENSOR AND START BAR
+						vOutLed7(1);
+						ucTestPattern = TEST_SENSOR_START_BAR;
+					}
+					if(bKeyIsPress(KEY2)){//KEY2 - MOTOR
+						vOutLed7(2);
+						iLeft = iRight = 10;
+						ucTestPattern = TEST_MOTOR;
 					}
 					
-				break;
-				default: break;
-			}
-		}
-		
-		if(bKeyIsPress(KEY1)){
-			if(bStartBarIsStart())vLedCtrl(LED_STARTUP_COMPELETE);
-		}
-		if(bKeyIsPress(KEY2)){
-			vMotor(60,60);
-		}
-		if(bKeyIsPress(KEY3)){
-			vMotor(10,10);
-		}
-    }
+					iTempData = iGetInclined();
+					if(iTempData != INVALID_NUM){
+						if(iTempData > 0){
+							vOutLed7(iTempData);
+						}
+						else{
+							vOutLed7(-iTempData + 1000);
+						}
+					}
+					break;
+				default:
+					break;
+			}//End switch test case			
+		}//End tester
+//////////////////////////////////////////////////////////////////////////
+		else{// Normal run
+			
+		}//end Normal run		
+//////////////////////////////////////////////////////////////////////////
+    }//End while 1
 }
 ISR(TIMER0_OVF_vect)
 {
