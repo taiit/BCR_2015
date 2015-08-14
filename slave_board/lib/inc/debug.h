@@ -46,10 +46,12 @@ extern void v_init_debug_via_uart(void);
 extern bool bDebugProcess(void);
 extern bool bMsgIsOK();
 // [Vo Huu Tai 8/8/2015 ]  Modified for new module
-extern void vSetCMDInfo(uint8_t ucCMDType);
-extern uint8_t ucGetCMDInfo();
-extern uint8_t ucGetDataLength();
-extern void ucGetData(uint8_t *ucPrtData);
+//extern void vSetCMDInfo(uint8_t ucCMDType);
+//extern uint8_t ucGetCMDInfo();
+//extern uint8_t ucGetDataLength();
+//extern void ucGetData(uint8_t *ucPrtData);
+extern struct S_UART_PACKET* S_GET_CMD_PACKET();
+extern void vClearUARTBuffer(struct S_UART_PACKET *sPacket);
 // [Vo Huu Tai 8/8/2015 ]  end modified
 //extern void print(const char *p, ...);// [Vo Huu Tai 8/8/2015 ]  Remove for optimized size
 
@@ -62,5 +64,5 @@ extern void vSendMSG(struct S_UART_PACKET K_MSG);
 // [Vo Huu Tai 9/8/2015 ]  Add for master
 extern void vOutLed7(unsigned int uiData);
 extern void vBeep(unsigned int uiBeepTime);
-extern int iGetInlined();
+extern void vInclinedPoll();
 #endif /* DEBUG_H_ */

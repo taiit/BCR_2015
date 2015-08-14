@@ -16,10 +16,10 @@ volatile uint16_t uiTimer0Cnt = 0;
 
 void vAssassin(){
 	// [Vo Huu Tai 10/8/2015 ]  over 1ms
-	if(++uiTimer0Cnt >= 10)uiTimer0Cnt = 0;
+	if((++uiTimer0Cnt) >= 10)uiTimer0Cnt = 0;
 	switch(uiTimer0Cnt){//I wish it is called very 10ms		
 		case 0:
-			vInclinedPoll();
+			//vInclinedPoll();
 			break;
 		case 1:
 			break;
@@ -40,6 +40,7 @@ void vAssassin(){
 		case 9:
 			vLedFlash();
 		break;
+		default: break;
 	}
 }
 
@@ -50,6 +51,8 @@ int main(void)
 	uint8_t ucTestPattern = TEST_NONE;
 	vInitProgram();		
 	_delay_ms(1000);//waiting for slaver ready, remove it ...
+	//enable local interrupt when every thing OK
+	sei();
 	/**
 	       vOutLed7(1234);		// Xuat so 1234		   
 		   vBeep(100);			// Phat ra tieng beeep 100 ms
@@ -58,10 +61,10 @@ int main(void)
 	*/	
     vOutLed7(1234);
 	vBeep(100);	
-	vLedCtrl(LED_STARTUP_COMPELETE);
+	vLedCtrl(LED_SLOW_BLINK);	
 	while(1)
     {       		
-		bDebugProcess();
+		//bDebugProcess();
 		if(isTester()){//check switch tester function
 		//Test go here
 			switch(ucTestPattern){
@@ -104,7 +107,7 @@ int main(void)
 						iLeft = iRight = 10;
 						ucTestPattern = TEST_MOTOR;
 					}
-					
+					if(bKeyIsPress(KEY3))vInclinedPoll();
 					iTempData = iGetInclined();
 					if(iTempData != INVALID_NUM){
 						if(iTempData > 0){

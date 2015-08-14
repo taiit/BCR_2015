@@ -42,12 +42,12 @@ void vKalmanRuning(){
 		
 	#ifdef KALMAN_RUNING
 	uint16_t cnt = 0;
-	uint8_t *ucPrtData = (uint8_t *)calloc(DEBUG_BUFF_SIZE,sizeof(uint8_t));
-	for(cnt = 0; cnt < 8; cnt++){
-		ucPrtData[cnt] = 49;
-	}
-	struct S_UART_PACKET command ;//(struct S_UART_PACKET*)malloc(sizeof(struct S_UART_PACKET));
-	
+	uint8_t *ucPrtData = (uint8_t *)calloc(DEBUG_BUFF_SIZE,sizeof(uint8_t));	
+	//for(cnt = 0; cnt < 8; cnt++){
+		//ucPrtData[cnt] = 49;
+	//}
+	struct S_UART_PACKET *command = (struct S_UART_PACKET*)malloc(sizeof(struct S_UART_PACKET));
+	struct S_UART_PACKET dataSend;
 	//mpu6050_readByte(MPU6050_RA_WHO_AM_I,i2cData);
 	//vPutStr("\nI am: ");
 	//vPutIntNum(i2cData[0],HEC_TYPE);
@@ -107,37 +107,39 @@ void vKalmanRuning(){
 			//vSendMSG(command);	
 			bDebugProcess();
 			if(bMsgIsOK()){
-				switch (ucGetCMDInfo())
-				{
-					case CMD_UPDATE_LED_7SEG:		
-						vSetCMDInfo(CMD_NONE);
-						ucGetData(ucPrtData);	
-						vOutLed7Seg(ucPrtData[0] * 100 + ucPrtData[1]);
-						break;
-					case CMD_BEEP:
-						vSetCMDInfo(CMD_NONE);
-						ucGetData(ucPrtData);
-						vBeepSlaver(ucPrtData[0] * 100 + ucPrtData[1]);
-						break;		
-					case CMD_SENSOR:	//send kalAngleX to master board
-						vSetCMDInfo(CMD_NONE);
-						command.ucInfo = CMD_SENSOR;
-						command.ucDataLength = 2;
-						kalAngleX = -kalAngleX;
-						if (kalAngleX < 0){ //negative
-							ucPrtData[0] = 1;
-							ucPrtData[1] = -kalAngleX;	
-						}
-						else{
-							ucPrtData[0] = 0;
-							ucPrtData[1] = kalAngleX;	
-						}										
-						command.ucPtrData = ucPrtData;
-						vSendMSG(command);							
-					default:
+				command = S_GET_CMD_PACKET();				
+				if((command != NULL)){					
+					switch (command->ucInfo)
+					{
+						case CMD_UPDATE_LED_7SEG:
+							vOutLed7Seg(command->ucPtrData[0] * 100 + command->ucPtrData[1]);
+							vClearUARTBuffer(command);
+							break;
+						case CMD_BEEP:
+							vBeepSlaver(command->ucPtrData[0] * 100 + command->ucPtrData[1]);
+							vClearUARTBuffer(command);
+							break;
+						case CMD_SENSOR:	//send kalAngleX to master board
+							dataSend.ucInfo = CMD_SENSOR;
+							dataSend.ucDataLength = 2;
+							kalAngleX = -kalAngleX;
+							if (kalAngleX < 0){ //negative
+								ucPrtData[0] = 1;
+								ucPrtData[1] = -kalAngleX;
+							}
+							else{
+								ucPrtData[0] = 0;
+								ucPrtData[1] = kalAngleX;
+							}
+							dataSend.ucPtrData = ucPrtData;
+							vSendMSG(dataSend);
+							vClearUARTBuffer(command);
+						default:
 						//vPutIntNum(ucGetCMDInfo(),DEC_TYPE);
-					break;
-				}//end witch();
+						break;
+					}//end witch();
+				}
+				
 			}//end if bMsgIsOK         
 			
 		}

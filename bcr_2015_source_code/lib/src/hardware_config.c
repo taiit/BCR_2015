@@ -30,7 +30,7 @@ void vInitProgram(){
 	//SERIAL
 	v_init_debug_via_uart();
 	//enable local interrupt
-	sei();
+	//sei();
 }
 void vInitTimer0(){
 	/**

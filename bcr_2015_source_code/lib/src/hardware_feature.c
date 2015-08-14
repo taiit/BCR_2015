@@ -142,27 +142,28 @@ bool bStartBarIsStart(){
 	return false;
 }
 int iGetInclined(){
-	uint8_t *ucBuff = (uint8_t*)calloc(DEBUG_BUFF_SIZE,sizeof(uint8_t));
+	struct S_UART_PACKET *command = (struct S_UART_PACKET*)malloc(sizeof(struct S_UART_PACKET));
 	int iRet = INVALID_NUM;
 	if(bMsgIsOK()){
-		switch (ucGetCMDInfo())
+		command = S_GET_CMD_PACKET();
+		if (command == NULL)return iRet;
+		switch (command->ucInfo)
 		{
 			case CMD_SENSOR:
-			vSetCMDInfo(CMD_NONE);
-			ucGetData(ucBuff);
-			if (ucBuff[0] == 1){//negative
-				iRet = -ucBuff[1];
-				//vOutLed7((-iRet + 1000));
-			}
-			if(ucBuff[0] == 0){
-				iRet = ucBuff[1];
-				//vOutLed7(iRet);
-			}		
-			break;
-			default: break;
+				if (command->ucPtrData[0] == 1){//negative
+					iRet = -(command->ucPtrData[1]);
+					//vOutLed7((-iRet + 1000));
+				}
+				if(command->ucPtrData[0] == 0){
+					iRet = command->ucPtrData[1];
+					//vOutLed7(iRet);
+				}
+				break;
+			default: 
+				break;
 		}
 	}
-	free(ucBuff);
+	free(command);
 	return iRet;
 }
 /*TaiVH1 -- Aug 11, 2015  brief: End add for motor and servo*/

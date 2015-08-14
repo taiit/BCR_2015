@@ -25,7 +25,7 @@ uint8_t ucLedEvent = LED_NONE;
 	@return:	none 
 */
 PRIVATE void vPeriodicDec(){	
-	if(uigLedPeriodic == 0 ){
+	if((uigLedPeriodic == 0) || (uigLedPeriodic == NO_LIMIT)){
 		uigLedPeriodic = NO_LIMIT;
 	}else
 	uigLedPeriodic--;	
@@ -37,7 +37,7 @@ PRIVATE void vPeriodicDec(){
 */
 PRIVATE void vIntervalDec(){
 	
-	if(uigLedInterval == 0){
+	if((uigLedInterval == 0) || (uigLedInterval == NO_LIMIT)){
 		uigLedInterval = NO_LIMIT;
 	}
 	else

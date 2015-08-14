@@ -15,7 +15,8 @@
 //stdout for printf
 //static FILE usartstd = FDEV_SETUP_STREAM(uart_putc, NULL,_FDEV_SETUP_WRITE);
 
-volatile struct S_UART_PACKET sUartPacket;
+//volatile struct S_UART_PACKET sUartPacket;
+struct S_UART_PACKET sUartPacket;
 unsigned int *ptr_rx_buff, index_rx_buf;
 unsigned char *ptr_command_data;
 bool bIsDubugCommandCompelete = false;
@@ -107,22 +108,26 @@ PUBLIC bool bMsgIsOK(){
 	}	
 	return false;
 }
+// [Vo Huu Tai 13/8/2015 ]  Remove, it doent work
+#if 0
 /*
 	@brief:		Get command info
 	@param:		none
 	@return:	command info 
 */
 PUBLIC uint8_t ucGetCMDInfo(){
-	return sUartPacket.ucInfo;
+	return sUartPacket.ucInfo;		
 }
 /*
 	@brief:		Set CMD info
 	@param:		command info
 	@return:	none 
 */
-PUBLIC void vSetCMDInfo(uint8_t ucCMDType){
-	sUartPacket.ucInfo = ucCMDType;
-}
+//PUBLIC void vSetCMDInfo(uint8_t ucCMDType){
+//	if (bIsDubugCommandCompelete){
+//	}
+//	sUartPacket.ucInfo = ucCMDType;
+//}
 /*
 	@brief:		Get data length of S_UART_PACKET
 	@param:		none
@@ -157,7 +162,20 @@ PUBLIC void ucGetData(uint8_t *ucPrtData){
 	vPutStr("ucGetData() END\n");
 	#endif
 }
-
+#endif
+// [Vo Huu Tai 13/8/2015 ]  Add get struct command packet
+PUBLIC struct S_UART_PACKET* S_GET_CMD_PACKET(){
+	if(bIsDubugCommandCompelete){
+		return &sUartPacket;
+	}
+	return NULL;
+}
+PUBLIC void vClearUARTBuffer(struct S_UART_PACKET *sPacket){
+	sPacket->ucInfo = CMD_NONE;
+	sPacket->ucDataLength = 0;
+	sPacket->ucCheckSum = 0;
+	sPacket->ucPtrData = NULL;
+}
 // [Vo Huu Tai 8/8/2015 ]  Remove for optimized size
 #if 0
 void print(const char *p, ...){
@@ -395,7 +413,7 @@ PUBLIC void vSendMSG(struct S_UART_PACKET K_MSG){
 PUBLIC void vOutLed7(unsigned int uiData){
 	if(uiData == uiOldDataLed7seg)return;
 	uiOldDataLed7seg = uiData;
-	uint8_t *ucPrtData = (uint8_t *)calloc(DEBUG_BUFF_SIZE,sizeof(uint8_t));
+	uint8_t *ucPrtData = (uint8_t *)calloc(2,sizeof(uint8_t));
 	ucPrtData[0] = uiData / 100;
 	ucPrtData[1] = uiData % 100;
 	struct S_UART_PACKET msg ;
@@ -411,7 +429,7 @@ PUBLIC void vOutLed7(unsigned int uiData){
 	@return:	none 
 */
 PUBLIC void vBeep(unsigned int uiBeepTime_ms){
-	uint8_t *ucPrtData = (uint8_t *)calloc(DEBUG_BUFF_SIZE,sizeof(uint8_t));
+	uint8_t *ucPrtData = (uint8_t *)calloc(2,sizeof(uint8_t));
 	if(uiBeepTime_ms > 9999)uiBeepTime_ms = 9999;
 	ucPrtData[0] = uiBeepTime_ms / 100;
 	ucPrtData[1] = uiBeepTime_ms % 100;
@@ -427,15 +445,14 @@ PUBLIC void vBeep(unsigned int uiBeepTime_ms){
 	@param:		none
 	@return:	inclined of sensor 
 */
-PUBLIC int iGetInlined(){
-	uint8_t *ucPrtData = (uint8_t *)calloc(DEBUG_BUFF_SIZE,sizeof(uint8_t));	
-	int ret = 0;
+PUBLIC void vInclinedPoll(){
+	uint8_t *ucPrtData = (uint8_t *)calloc(1,sizeof(uint8_t));	
+	
 	ucPrtData[0] = 0;	
 	struct S_UART_PACKET msg ;
 	msg.ucInfo = CMD_SENSOR;
 	msg.ucDataLength = 1;
 	msg.ucPtrData = ucPrtData;
 	vSendMSG(msg);	
-	free(ucPrtData);	
-	return ret;
+	free(ucPrtData);		
 }
