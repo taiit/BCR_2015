@@ -17,6 +17,7 @@ void vInitProgram(){
 	SWITCH_INIT;		//Switch is input
 	MOTOR_LEFT_INIT;
 	MOTOR_RIGHT_INIT;
+	SERVO_INIT;
 	SLAVE_ENABLE_INIT;
 	SLAVE_ON;
 	USB_DISABLE;
@@ -30,7 +31,7 @@ void vInitProgram(){
 	//SERIAL
 	v_init_debug_via_uart();
 	//enable local interrupt
-	//sei();
+	sei();
 }
 void vInitTimer0(){
 	/**
@@ -55,8 +56,9 @@ void vInitTimer1(){
 	*/
 	TCCR1A = (1 << WGM11) | (1 << COM1A1) | (1 << COM1B1);
 	TCCR1B = (1 << WGM13) | (1 << WGM12) | (1 << CS11);
-	ICR1 = PWM_ICR1_MAX;
-	OCR1B = 2000;
+	ICR1 = PWM_PERIOD_LEFT_MAX;
+	OCR1A = SERVO_CENTER; //Servo, 1ms <-> 1500 and 2ms <-> 3000
+	OCR1B = 0;//Motor Left
 }
 void vInitTimer2(){
 	/**
@@ -68,5 +70,5 @@ void vInitTimer2(){
 				=> prescaler = 256.
 	*/
 	TCCR2 = (1 << WGM21) | (1 << WGM20) | (1 << COM21) | (1 << CS22) | (1 << CS21);
-	OCR2 = PWM_ICR2_MAX;
+	//OCR2 = PWM_ICR2_MAX;
 }

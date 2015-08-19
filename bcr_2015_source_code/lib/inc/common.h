@@ -87,15 +87,19 @@
 #define BF_R 5
 
 //Motor Left Init
+//OCR1B (PD4)
 #define MOTOR_LEFT_INIT		sbi(DDR_MOTOR,DIR_L);\
+							cbi(PORT_MOTOR,DIR_L);\
 							sbi(DDR_MOTOR,BF_L);\
 							sbi(PORT_MOTOR,BF_L);\
 							sbi(DDRD,4)
 #define MOTOR_RIGHT_INIT	sbi(DDR_MOTOR,DIR_R);\
+							cbi(PORT_MOTOR,DIR_R);\
 							sbi(DDR_MOTOR,BF_R);\
 							sbi(PORT_MOTOR,BF_R);\
 							sbi(DDRD,7)
-
+//Servo OCR1A, PD5
+#define SERVO_INIT			sbi(DDRD,5)
 //
 //	Slave Enable
 //
@@ -107,12 +111,13 @@
 #define USB_DISABLE			cbi(DDRC,7);\
 							cbi(DDRC,7)
 /*TaiVH1 -- Aug 11, 2015  brief: Add for PWM, Sensor*/
-#define SENSOR_INTIT		(DDRA = 0x00)
-#define START_BAR_BIT		7
-#define PWM_ICR1_MAX		22500
-#define PWM_ICR2_MAX		100
-#define SERVO_ANGLE_STEP	0
-#define SERVO_CENTER		0
+#define SENSOR_INTIT				(DDRA = 0x00)
+#define START_BAR_BIT				7
+#define PWM_PERIOD_LEFT_MAX			22500
+#define PEM_PERIOD_RIGHT_MAX		0xFF
+//F = 12Mhz 1600 - 2400 - 3200
+#define SERVO_CENTER				2400 
+#define SERVO_ANGLE_STEP			8
 // [Vo Huu Tai 12/8/2015 ]  
 #define INVALID_NUM			0xFFFF
 #define TEST_NONE					0

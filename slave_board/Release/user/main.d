@@ -22,10 +22,7 @@ user/main.d user/main.o: ../user/main.c \
  c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\lib\gcc\avr\4.8.1\include\stdbool.h \
  ../user/../lib/inc/led7seg.h ../user/../lib/inc/debug.h \
  ../user/../lib/inc/serial.h ../user/../lib/inc/common.h \
- ../user/../lib/inc/system_clock.h ../user/../lib/inc/../inc/led7seg.h \
- ../user/test_kalman.h ../user/../lib/mpu6050/Kalman.h \
- ../user/../lib/mpu6050/mpu6050.h \
- ../user/../lib/mpu6050/mpu6050registers.h
+ ../user/../lib/inc/system_clock.h ../user/../lib/inc/../inc/led7seg.h
 
 c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-toolchain\avr\include\stdlib.h:
 
@@ -82,11 +79,3 @@ c:\program\ files\atmel\atmel\ toolchain\avr8\ gcc\native\3.4.1056\avr8-gnu-tool
 ../user/../lib/inc/system_clock.h:
 
 ../user/../lib/inc/../inc/led7seg.h:
-
-../user/test_kalman.h:
-
-../user/../lib/mpu6050/Kalman.h:
-
-../user/../lib/mpu6050/mpu6050.h:
-
-../user/../lib/mpu6050/mpu6050registers.h:

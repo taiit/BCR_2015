@@ -18,7 +18,6 @@ bool bKeyIsPress(uint8_t ucKeyID){
 			while((PIN_KEY&mask)!=mask);//waiting for key is released
 			//LED_BUG_OFF;
 			vBeep(30);
-			_delay_ms(10);
 			return true;
 		}
 	}
@@ -36,23 +35,27 @@ uint8_t ucGetSwitch(){
 /*TaiVH1 -- Aug 11, 2015  brief: Add for control motor and servo*/
 
 void vMotor(int iSpeedLeft, int iSpeedRight){
+	uint8_t ucSwData = ucGetSwitch() + 5;//ucSwData = [0..20]
+	int iSpeedOfset = (PWM_PERIOD_LEFT_MAX-1)*((float)(ucSwData/20));
+	iSpeedOfset = PWM_PERIOD_LEFT_MAX - 1; //Fix me
 	//Speed motor left
 	if(iSpeedLeft >= 0){
 		sbi(PORT_MOTOR,DIR_L);
-		OCR1B = iSpeedLeft * PWM_ICR1_MAX * 0.01;
+		OCR1B = iSpeedOfset * ((float)(iSpeedLeft * 0.01));
 	}
 	else{
 		cbi(PORT_MOTOR,DIR_L);
-		OCR1B = (-iSpeedLeft) * PWM_ICR1_MAX * 0.01;
+		OCR1B = iSpeedOfset * (float)((-iSpeedLeft) * 0.01);
 	}
 	//Speed motor right
+	iSpeedOfset = PEM_PERIOD_RIGHT_MAX - 1;
 	if(iSpeedRight >= 0){
-		sbi(PORT_MOTOR,DIR_R);
-		OCR2 = iSpeedRight * PWM_ICR2_MAX * 0.01;
+		cbi(PORT_MOTOR,DIR_R);
+		OCR2  = iSpeedOfset * ((float)(iSpeedRight * 0.01));
 	}
 	else{
-		cbi(PORT_MOTOR,DIR_R);
-		OCR2 = (-iSpeedRight) * PWM_ICR2_MAX * 0.01;
+		sbi(PORT_MOTOR,DIR_R);
+		OCR2  = iSpeedOfset * ((float)((-iSpeedRight) * 0.01));
 	}
 }
 void vSetBF(bool bBFMotorLeft,bool bBFMotorRight){
@@ -75,96 +78,18 @@ void vServo(int iAngle){
 
 uint8_t ucGetSensorData(){
 
-	uint8_t ucSensorRawData = PINA;
-	/*Check start bar bit*/
-	#if	(START_BAR_BIT == 7)
-		ucSensorRawData &= 0x7f;
-	#elif (START_BAR_BIT == 0)
-		ucucSensorRawData >>= 1;
-	#else
-	#error SENSOR_BIT INCORRECT
-	#endif
-	return ucSensorRawData;
+	return 0;
 }
 
 int iGetSensorPosition(){
-	/*
-	 * 			S1	 S2	 S3		S4		S5	S6	S7
-	 *
-	 * 			-30	-20	-10		0		10	20	30
-	 * 	index    6	 5	 4		3		2	1	0
-	 *
-	 * 				S1*(-10) + S2*(-20) + ...
-	 * 	position = ----------------------------
-	 * 				S1    +    S2       + ...
-	 */
-	int iPosition = 0;
-	uint8_t ucSensorRawData = ucGetSensorData();
-	uint8_t ucIndexCnt = 0,ucSumWhiteBit = 0;
-
-	for(; ucIndexCnt < 7; ucIndexCnt++){
-		if(bit_is_clear(ucSensorRawData,ucIndexCnt)){ //White line => 0
-			ucSumWhiteBit++;
-			switch(ucIndexCnt){
-				case 0:
-					iPosition += 30;
-					break;
-				case 1:
-					iPosition += 20;
-					break;
-				case 2:
-					iPosition += 10;
-					break;
-				case 3:
-					iPosition += 0;
-					break;
-				case 4:
-					iPosition += -10;
-					break;
-				case 5:
-					iPosition += -20;
-					break;
-				case 6:
-					iPosition += -30;
-					break;
-			}
-		}else{											//Black line => 1
-			//do nothing
-		}
-	}
-	if(ucSumWhiteBit != 0){
-		iPosition /= ucSumWhiteBit;
-	}
-	return iPosition;
+	return 0;
 }
 bool bStartBarIsStart(){
 	if(bit_is_clear(PINA,START_BAR_BIT))return true;
 	return false;
 }
 int iGetInclined(){
-	struct S_UART_PACKET *command = (struct S_UART_PACKET*)malloc(sizeof(struct S_UART_PACKET));
-	int iRet = INVALID_NUM;
-	if(bMsgIsOK()){
-		command = S_GET_CMD_PACKET();
-		if (command == NULL)return iRet;
-		switch (command->ucInfo)
-		{
-			case CMD_SENSOR:
-				if (command->ucPtrData[0] == 1){//negative
-					iRet = -(command->ucPtrData[1]);
-					//vOutLed7((-iRet + 1000));
-				}
-				if(command->ucPtrData[0] == 0){
-					iRet = command->ucPtrData[1];
-					//vOutLed7(iRet);
-				}
-				break;
-			default: 
-				break;
-		}
-	}
-	free(command);
-	return iRet;
+	return 0;
 }
 /*TaiVH1 -- Aug 11, 2015  brief: End add for motor and servo*/
 
