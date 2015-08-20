@@ -75,19 +75,10 @@ void vSetBF(bool bBFMotorLeft,bool bBFMotorRight){
 void vServo(int iAngle){
 	OCR1A = SERVO_CENTER + iAngle*SERVO_ANGLE_STEP;
 }
+// [Vo Huu Tai 19/8/2015 ]  ADD 
+		/// .. . .
+// [Vo Huu Tai 19/8/2015 ]  end ADD
 
-uint8_t ucGetSensorData(){
-
-	return 0;
-}
-
-int iGetSensorPosition(){
-	return 0;
-}
-bool bStartBarIsStart(){
-	if(bit_is_clear(PINA,START_BAR_BIT))return true;
-	return false;
-}
 int iGetInclined(){
 	return 0;
 }
@@ -100,3 +91,87 @@ bool isTester(){
 	return true;
 }
 // [Vo Huu Tai 12/8/2015 ]  end add for inclined and tester
+
+// [Vo Huu Tai 19/8/2015 ]  Add for ADC and epprom
+uint16_t EEMEM  uiMyEppDataArr[8];
+uint16_t uiAdAverage[8],uiAdMin[8],uiAdMax[8];
+
+PUBLIC uint16_t uiReadADC(unsigned char chanenel)
+{
+	ADMUX = chanenel|ADC_VREF_TYPE;
+	ADCSRA |= (1<<ADSC);
+	loop_until_bit_is_set(ADCSRA,ADIF);
+	return ADCW;
+}
+PUBLIC void vLearnColor()
+{
+	uint16_t temp = 0;
+	while(1)
+	{  
+		vOutLed7(99);
+		//ADC0	ADC1	ADC2				ADC6	ADC7
+		// xx	 xx		 xx	 x-x	xx	xx	 xx      --
+		for(uint8_t i = 0; i < 7; i++)
+		{
+			temp = uiReadADC(i);
+			_delay_us(50);
+			if(uiAdMax[i] == 0) uiAdMax[i] = temp;
+			else if(temp > uiAdMax[i]) uiAdMax[i] = temp;
+			if(uiAdMin[i] == 0) uiAdMin[i] = temp;
+			else if(temp < uiAdMin[i]){
+				uiAdMin[i] = temp;
+			}
+		}
+		if(bKeyIsPress(KEY3)) break;//Exit
+	}//end while(1)
+	vOutLed7(66);
+	vBeep(100);	_delay_ms(100);	vBeep(100);
+	uiAdAverage[7] = 100;//Note, start bar is bit 0. if adc[7] < adc_average[7] it mean start bar is open
+	write_eeprom_word(&uiMyEppDataArr[7] , uiAdAverage[7]);
+	for (uint8_t i = 0; i < 7; i++)
+	{
+		uiAdAverage[i] = (uiAdMin[i] + uiAdMax[i])/2;
+		//adc_average[i] = adc_average[i]*19/20;
+		//adc_average[i] = adc_average[i]*((float)1.25);
+		write_eeprom_word(&uiMyEppDataArr[i] , uiAdAverage[i]);
+	}
+}
+PUBLIC uint8_t ucGetRawSensor()
+{
+	uint8_t result = 0;
+	uint16_t temp = 0;
+	//ADC0	ADC1	ADC2				ADC6	ADC7
+	// xx	 xx		 xx	 x-x	xx	xx	 xx      --
+	for(int i = 0; i < 7;i++)
+	{
+		temp = uiReadADC(i);
+		//swap bit here
+		if(temp <= uiAdAverage[i]){
+			sbi(result,6-i);
+		}
+		else{
+			cbi(result,6-i);	
+		}		
+	}
+	cbi(result,7);
+	//data_led = result;
+	return result;
+}
+PUBLIC uint8_t ucGetSensorData(uint8_t mask){
+
+	return (ucGetRawSensor() & mask);
+}
+int iGetSensorPosition(){
+	return 0;
+}
+bool bStartBarIsStart(){
+	uint16_t ucDataADC = uiReadADC(7);
+	if(ucDataADC < 100) return true;//adc_average[7]
+	return false;
+}
+void vLoadE2P(){
+	for(int i = 0;i < 8;i++){
+		uiAdAverage[i] = read_eeprom_word(&uiMyEppDataArr[i]);
+	}
+}
+// [Vo Huu Tai 19/8/2015 ]  End add ADC and epprom

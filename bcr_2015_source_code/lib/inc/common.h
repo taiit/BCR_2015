@@ -15,6 +15,7 @@
 #define F_CPU 12000000UL
 #include <util/delay.h>
 #include <stdbool.h>
+#include <avr/eeprom.h>
 //
 //define common macro
 //
@@ -111,7 +112,7 @@
 #define USB_DISABLE			cbi(DDRC,7);\
 							cbi(DDRC,7)
 /*TaiVH1 -- Aug 11, 2015  brief: Add for PWM, Sensor*/
-#define SENSOR_INTIT				(DDRA = 0x00)
+//#define SENSOR_INTIT				(DDRA = 0x00)	//Use ADC
 #define START_BAR_BIT				7
 #define PWM_PERIOD_LEFT_MAX			22500
 #define PEM_PERIOD_RIGHT_MAX		0xFF
@@ -123,4 +124,15 @@
 #define TEST_NONE					0
 #define TEST_SENSOR_START_BAR		1
 #define TEST_MOTOR					2
+
+// [Vo Huu Tai 19/8/2015 ]  Add ADC & epprom
+#define ADC_VREF_TYPE (1<<REFS0)
+#define ADC_INIT	DDRA = 0x00;\
+					ADCSRA = (1<<ADEN) | (1<<ADPS2) | (ADPS1) | (1<<ADPS0);\
+					ADMUX = ADC_VREF_TYPE
+// Macro for epprom. Must include <avr/eeprom.h>
+#define read_eeprom_word(address)			eeprom_read_word ((const uint16_t*)address)
+#define write_eeprom_word(address,value)	eeprom_write_word ((uint16_t*)address,(uint16_t)value)
+#define update_eeprom_word(address,value)	eeprom_update_word ((uint16_t*)address,(uint16_t)value)
+// [Vo Huu Tai 19/8/2015 ]  End Add ADC
 #endif /* COMMON_H_ */

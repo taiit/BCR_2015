@@ -21,7 +21,8 @@ void vInitProgram(){
 	SLAVE_ENABLE_INIT;
 	SLAVE_ON;
 	USB_DISABLE;
-	SENSOR_INTIT;
+	//SENSOR_INTIT; //Use ADC
+	ADC_INIT;
 	
 	//Timer and PWM
 	vInitTimer0();

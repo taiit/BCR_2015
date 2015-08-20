@@ -43,7 +43,7 @@ int main(void)
 	vServo(0);
 	while(1)
     {       	
-		if(isTester()){
+		if(isTester()){//Get switch tester
 			vOutLed7(ucGetSwitch());
 			bDebugProcess();
 			if(bMsgIsOK()){
@@ -70,14 +70,36 @@ int main(void)
 				vLedCtrl(LED_STARTUP_COMPELETE);
 			}
 			if(bStartBarIsStart()){
-				//vLedCtrl(LED_STARTUP_COMPELETE); //Fix me
+				vLedCtrl(LED_STARTUP_COMPELETE); //Fix me
 			}
 		}//end tester
-		else{
-			vOutLed7(iSensorData++);
-			if(iSensorData == 9999)iSensorData = 0;
-			_delay_ms(50);
-		}
+		else{//normal running
+			if(bKeyIsPress(KEY2)){//Key 2 learn color, and run
+				vLearnColor();
+				iSensorData = 0;
+				while(1){
+					if (bKeyIsPress(KEY1))
+					{
+						//xx xx xx  xx  xx xx xx    --
+						iSensorData ++;
+						if(iSensorData == 8){
+							iSensorData = 0;
+							vLedCtrl(LED_START_BAR_OK);
+						}						
+					}
+					//vOutLed7(read_adc(iSensorData));
+					vOutLed7(ucGetSensorData(0xff));
+					_delay_ms(100);
+				}//end while 1
+			}//end Key 2 learn color, and run
+			if(bKeyIsPress(KEY1)){//Load epprom and run
+				vLoadE2P();
+				while(1){
+					vOutLed7(ucGetSensorData(0xff));
+					_delay_ms(100);
+				}
+			}// end Load epprom and run
+		} //end normal running
     }//end while(1)
 }
 ISR(TIMER0_OVF_vect)

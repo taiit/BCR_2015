@@ -28,10 +28,16 @@ extern uint8_t ucGetSwitch();
 extern void vMotor(int iSpeedLeft, int iSpeedRight);
 extern void vSetBF(bool bBFMotorLeft,bool bBMotorRight);
 extern void vServo(int iAngle);
-extern uint8_t ucGetSensorData();
-extern int iGetSensorPosition();
-bool bStartBarIsStart();
 int iGetInclined();
 bool isTester();
 /*TaiVH1 -- Aug 11, 2015  brief: End add for motor and servo*/
+// [Vo Huu Tai 19/8/2015 ]  add adc and epprom
+uint16_t uiReadADC(unsigned char ucADCChanenel);
+void vLearnColor();
+uint8_t ucGetRawSensor();
+extern uint8_t ucGetSensorData(uint8_t mask);
+extern int iGetSensorPosition();
+bool bStartBarIsStart();
+void vLoadE2P();
+// [Vo Huu Tai 19/8/2015 ]  end add adc and epprom
 #endif /* HARDWARE_FEATURE_H_ */
