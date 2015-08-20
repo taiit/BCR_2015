@@ -117,7 +117,7 @@
 #define PWM_PERIOD_LEFT_MAX			22500
 #define PEM_PERIOD_RIGHT_MAX		0xFF
 //F = 12Mhz 1600 - 2400 - 3200
-#define SERVO_CENTER				2400 
+#define SERVO_CENTER				2350//2400 
 #define SERVO_ANGLE_STEP			8
 // [Vo Huu Tai 12/8/2015 ]  
 #define INVALID_NUM			0xFFFF

@@ -35,8 +35,8 @@ uint8_t ucGetSwitch(){
 /*TaiVH1 -- Aug 11, 2015  brief: Add for control motor and servo*/
 
 void vMotor(int iSpeedLeft, int iSpeedRight){
-	uint8_t ucSwData = ucGetSwitch() + 5;//ucSwData = [0..20]
-	int iSpeedOfset = (PWM_PERIOD_LEFT_MAX-1)*((float)(ucSwData/20));
+	//uint8_t ucSwData = ucGetSwitch() + 5;//ucSwData = [0..20]
+	int iSpeedOfset ;//= (PWM_PERIOD_LEFT_MAX-1)*((float)(ucSwData/20));
 	iSpeedOfset = PWM_PERIOD_LEFT_MAX - 1; //Fix me
 	//Speed motor left
 	if(iSpeedLeft >= 0){
