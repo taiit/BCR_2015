@@ -282,45 +282,113 @@ void vRuning(){
 //Cross line
 			case CAR_CROSS_LINE: //(case 20) 0 111 1 111
 				vOutLed7(CAR_CROSS_LINE);	
-				vMotor(-20,-20,false);	
-				if(cnt_timer_1ms > 200){//100ms
+				vSetBF(true,true);	
+				if(cnt_timer_1ms > 50){//5ms
 					cnt_int1 = 0;
 					pattern = CAR_CROSS_LINE + 1;
 				}
 				break; //CAR_CROSS_LINE
-			case (CAR_CROSS_LINE + 1):
-				vSetBF(true,true);
-				followLineAfterSignal(15,true);
+			case (CAR_CROSS_LINE + 1)://on dinh				
+				switch(ucGetSensorData(0x77)){//0 fff 0 fff
+					case 0x00:// 0 000 x 000
+						vServo(0);
+						vMotor(20,20,true);
+						break;
+					//
+					case  0x04: // 0 000 x 100
+						vServo(10);
+						vMotor(15,13,true);
+						break;
+					case 0x06: // 0 000 x 110
+						vServo(15);
+						vMotor(15,10,true);
+						break;
+					case  0x02: // 0 000 0 010
+						vServo(20);
+						vMotor(10,5,false);
+						break;
+					case 0x03: // 0 000 x 011
+						vServo(25);
+						vMotor(10,-10,false);
+						break;
+					////
+					case 0x10: //0 001 x 000
+						vServo(-10);
+						vMotor(13,15,false);
+						break;
+					case 0x30: // 0 011 x 000
+						vServo(-15);
+						vMotor(10,15,false);
+						break;
+					case 0x20: // 0 010 x 000
+						vServo(-20);
+						vMotor(5,10,false);
+						break;
+					case 0x60: // 0 110 x 000
+						vServo(-25);
+						vMotor(10,-10,false);
+						break;
+				}				
 				if(cnt_int1 > 150){
 					pattern = CAR_CROSS_LINE + 2;
 				}
 				break;
-			case (CAR_CROSS_LINE + 2):
-				followLineAfterSignal(15,true);
-				if(ucGetSensorData(0x78) == 0x78){//0 xxx x 000
+			case (CAR_CROSS_LINE + 2)://nhan tin hieu va queo
+				followLineAfterSignal(20,true);
+				if(ucGetSensorData(0x70) == 0x70){//0 xxx 0 000
 					cnt_timer_1ms = 0;
-					pattern = CAR_TURN_LEFT;
-					vSetBF(false,false);
+					pattern = CAR_TURN_LEFT;					
+				}
+				if(ucGetSensorData(0x07) == 0x07){//0 000 0 xxx
+					cnt_timer_1ms = 0;
+					pattern = CAR_TURN_RIGHT;
 				}
 				break;
 //Car turn right
-			case CAR_TURN_RIGHT:
+			case CAR_TURN_RIGHT: // 30
+				vOutLed7(CAR_TURN_RIGHT);
+				
+				vServo(60);
+				vMotor(60,-20,false);
 			
+				pattern = CAR_TURN_RIGHT + 1;
+				cnt_timer_1ms = 0;
+			break;
+			case (CAR_TURN_RIGHT + 1) :
+				if(cnt_timer_1ms > 60){
+					pattern = CAR_TURN_RIGHT + 2;
+				}
+				break;
+			case (CAR_TURN_RIGHT + 2):
+				if(ucGetSensorData(0x77) == 0x02){ // 0 xxx 0 xxx. 0 000 0 011
+					pattern = CAR_NORMAL_TRACE;
+					cnt_timer_1ms = 0;
+					vSetBF(false,false);
+				}
 				break;
 //Car turn left
-			case CAR_TURN_LEFT:
+			case CAR_TURN_LEFT: // 30
 				vOutLed7(CAR_TURN_LEFT);
+				
+				vServo(-60);
+				vMotor(-20,60,false);
+				
+				pattern = CAR_TURN_LEFT + 1;
+				cnt_timer_1ms = 0;
 				break;
 			case (CAR_TURN_LEFT + 1) :
-				vServo(-40);
-				if(ucGetSensorData(0x02) == 0x02){// 0 000 0 0x0
-					vServo(-30);
-					cnt_timer_1ms = 0;
-					while(cnt_timer_1ms < 20);
-					pattern = CAR_NORMAL_TRACE;
+				if(cnt_timer_1ms > 60){
+					pattern = CAR_TURN_LEFT + 2;
 				}
-			break;
-//Right line		
+				break;
+			case (CAR_TURN_LEFT + 2):
+				if(ucGetSensorData(0x77) == 0x60){ // 0 xxx 0 xxx
+					pattern = CAR_NORMAL_TRACE;
+					cnt_timer_1ms = 0;
+					vSetBF(false,false);
+				}
+				break;
+//Right line - chuyen lan		
 			case CAR_RIGHT_LINE://(case 51) 0 000 1 111
 				while(cnt_timer_1ms < 1);
 				if(check_crossline(CHECK_FROM_RIGHT)){
