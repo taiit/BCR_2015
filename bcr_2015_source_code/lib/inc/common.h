@@ -135,4 +135,24 @@
 #define write_eeprom_word(address,value)	eeprom_write_word ((uint16_t*)address,(uint16_t)value)
 #define update_eeprom_word(address,value)	eeprom_update_word ((uint16_t*)address,(uint16_t)value)
 // [Vo Huu Tai 19/8/2015 ]  End Add ADC
+// [Vo Huu Tai 20/8/2015 ]  Add extern interrupt
+//Interrupt 1, any logic change
+#define INT1_INIT		MCUCR = (1 << ISC10);\
+						GICR  = (1 << INT1)
+						
+#define USE_PID
+
+// [Vo Huu Tai 20/8/2015 ]  End add extern interrupt
+// [Vo Huu Tai 21/8/2015 ]  ADD define for case car
+#define CHECK_FROM_LEFT				1
+#define CHECK_FROM_RIGHT			2
+#define CAR_NORMAL_TRACE			10
+
+#define CAR_CROSS_LINE				20
+#define CAR_TURN_LEFT				30
+#define CAR_TURN_RIGHT				40
+
+#define CAR_RIGHT_LINE				51
+#define CAR_LEFT_LINE				61
+
 #endif /* COMMON_H_ */

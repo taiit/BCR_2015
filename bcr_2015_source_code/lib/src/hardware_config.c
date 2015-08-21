@@ -23,6 +23,7 @@ void vInitProgram(){
 	USB_DISABLE;
 	//SENSOR_INTIT; //Use ADC
 	ADC_INIT;
+	INT1_INIT;
 	
 	//Timer and PWM
 	vInitTimer0();

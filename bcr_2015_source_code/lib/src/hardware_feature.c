@@ -33,43 +33,51 @@ uint8_t ucGetSwitch(){
 }
 
 /*TaiVH1 -- Aug 11, 2015  brief: Add for control motor and servo*/
-
-void vMotor(int iSpeedLeft, int iSpeedRight){
-	//uint8_t ucSwData = ucGetSwitch() + 5;//ucSwData = [0..20]
-	int iSpeedOfset ;//= (PWM_PERIOD_LEFT_MAX-1)*((float)(ucSwData/20));
-	iSpeedOfset = PWM_PERIOD_LEFT_MAX - 1; //Fix me
-	//Speed motor left
-	if(iSpeedLeft >= 0){
-		sbi(PORT_MOTOR,DIR_L);
-		OCR1B = iSpeedOfset * ((float)(iSpeedLeft * 0.01));
+int ucExSpeedLeft = 0, ucExSpeedRight = 0;
+volatile bool bMotorUsePID = false;
+void vMotor(int iSpeedLeft, int iSpeedRight,bool bUsePID){
+	bMotorUsePID = bUsePID;
+	if(bUsePID){
+		ucExSpeedLeft = iSpeedLeft;
+		ucExSpeedRight = iSpeedRight;	
 	}
 	else{
-		cbi(PORT_MOTOR,DIR_L);
-		OCR1B = iSpeedOfset * (float)((-iSpeedLeft) * 0.01);
-	}
-	//Speed motor right
-	iSpeedOfset = PEM_PERIOD_RIGHT_MAX - 1;
-	if(iSpeedRight >= 0){
-		cbi(PORT_MOTOR,DIR_R);
-		OCR2  = iSpeedOfset * ((float)(iSpeedRight * 0.01));
-	}
-	else{
-		sbi(PORT_MOTOR,DIR_R);
-		OCR2  = iSpeedOfset * ((float)((-iSpeedRight) * 0.01));
+		//uint8_t ucSwData = ucGetSwitch() + 5;//ucSwData = [0..20]
+		int iSpeedOfset ;//= (PWM_PERIOD_LEFT_MAX-1)*((float)(ucSwData/20));
+		iSpeedOfset = PWM_PERIOD_LEFT_MAX - 1; //Fix me
+		//Speed motor left
+		if(iSpeedLeft >= 0){
+			sbi(PORT_MOTOR,DIR_L);
+			OCR1B = iSpeedOfset * ((float)(iSpeedLeft * 0.01));
+		}
+		else{
+			cbi(PORT_MOTOR,DIR_L);
+			OCR1B = iSpeedOfset * (float)((-iSpeedLeft) * 0.01);
+		}
+		//Speed motor right
+		iSpeedOfset = PEM_PERIOD_RIGHT_MAX - 1;
+		if(iSpeedRight >= 0){
+			cbi(PORT_MOTOR,DIR_R);
+			OCR2  = iSpeedOfset * ((float)(iSpeedRight * 0.01));
+		}
+		else{
+			sbi(PORT_MOTOR,DIR_R);
+			OCR2  = iSpeedOfset * ((float)((-iSpeedRight) * 0.01));
+		}
 	}
 }
 void vSetBF(bool bBFMotorLeft,bool bBFMotorRight){
 	//BF motor left
 	if(bBFMotorLeft == true){
-		sbi(PORT_MOTOR,BF_L);
-	}else{
 		cbi(PORT_MOTOR,BF_L);
+	}else{
+		sbi(PORT_MOTOR,BF_L);
 	}
 	//BF motor right
 	if(bBFMotorRight == true){
-		sbi(PORT_MOTOR,BF_R);
-	}else{
 		cbi(PORT_MOTOR,BF_R);
+	}else{
+		sbi(PORT_MOTOR,BF_R);
 	}
 }
 void vServo(int iAngle){
@@ -175,3 +183,73 @@ void vLoadE2P(){
 	}
 }
 // [Vo Huu Tai 19/8/2015 ]  End add ADC and epprom
+// [Vo Huu Tai 20/8/2015 ]  Add interrupt
+
+volatile uint16_t uiPulse;
+int pre_ErrLeft = 0,pre_ErrRight = 0,uiLastPulse = 0;
+float outputMotorLeft = 0;
+float outputMotorRight = 0;
+
+void vIncPulse(){
+	uiPulse++;
+}
+PRIVATE int uiGetDeltaPulse(){
+		
+	int uiDeltaPulse = uiPulse - uiLastPulse;
+	uiLastPulse = uiPulse;	
+	
+	return (uiDeltaPulse);
+}
+PRIVATE float iGetErr(int speed,int deltaPluse){
+	float temp = 40*speed*0.01;
+	return(temp - deltaPluse);
+}
+void vCalPID(){
+	//call over 10ms
+	float Kp,Kd;
+	float P,D,err,deltaPulse;		
+	
+	deltaPulse = uiGetDeltaPulse();//alway get delta pluse for reset review pluse.
+	
+	if(!bMotorUsePID)return;	
+	
+	//motor left
+	Kp = 29.9;
+	Kd = 12.1;
+	
+	err = iGetErr(ucExSpeedLeft,deltaPulse);
+	P = Kp * err;
+	D = Kd*(err - pre_ErrLeft)*50; //50 is inv_Sampling_time
+	outputMotorLeft += P + D;
+
+	if(outputMotorLeft > (PWM_PERIOD_LEFT_MAX - 1000))outputMotorLeft = PWM_PERIOD_LEFT_MAX - 1000;
+	if (outputMotorLeft < 0)outputMotorLeft = 0;
+//
+	OCR1B = outputMotorLeft;
+	pre_ErrLeft = err;
+//motor right
+	Kp = 0.75;
+	Kd = 0.12;
+	
+	err = iGetErr(ucExSpeedRight,deltaPulse);
+	P = Kp*err;
+	D = Kd*(err - pre_ErrRight)*50;//50 is inv_Sampling_time
+	outputMotorRight += P + D;
+	
+	if(outputMotorRight > (PEM_PERIOD_RIGHT_MAX - 10))outputMotorRight = PEM_PERIOD_RIGHT_MAX - 10;
+	if(outputMotorRight < 0)outputMotorRight = 0;
+	
+	OCR2 = outputMotorRight;
+	pre_ErrRight = err;
+	
+	//Dir
+	if(ucExSpeedLeft > 0)
+	sbi(PORT_MOTOR,DIR_L);
+	else cbi(PORT_MOTOR,DIR_R);
+	
+	if(ucExSpeedRight > 0)
+	cbi(PORT_MOTOR,DIR_R);
+	else 
+	sbi(PORT_MOTOR,DIR_R);
+}
+// [Vo Huu Tai 20/8/2015 ]  End add interrupt
