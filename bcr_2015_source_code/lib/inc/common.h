@@ -117,7 +117,7 @@
 #define PWM_PERIOD_LEFT_MAX			22500
 #define PEM_PERIOD_RIGHT_MAX		0xFF
 //F = 12Mhz 1600 - 2400 - 3200
-#define SERVO_CENTER				2350//2400 
+//#define SERVO_CENTER				2350//2400 
 #define SERVO_ANGLE_STEP			8
 // [Vo Huu Tai 12/8/2015 ]  
 #define INVALID_NUM			0xFFFF
@@ -146,6 +146,8 @@
 // [Vo Huu Tai 21/8/2015 ]  ADD define for case car
 #define CHECK_FROM_LEFT				1
 #define CHECK_FROM_RIGHT			2
+
+#define CAR_IDLE					0
 #define CAR_NORMAL_TRACE			10
 
 #define CAR_CROSS_LINE				20
@@ -154,5 +156,13 @@
 
 #define CAR_RIGHT_LINE				51
 #define CAR_LEFT_LINE				61
-
+// [Vo Huu Tai 23/8/2015 ]  ADD led 7 seg
+#define _LED_DDR	DDRD
+#define _LED_PORT	PORTD
+#define SCK			0
+#define DS			1
+#define LATCH		2
+#define LED7_INIT		sbi(_LED_DDR,SCK);\
+						sbi(_LED_DDR,DS);\
+						sbi(_LED_DDR,LATCH);
 #endif /* COMMON_H_ */

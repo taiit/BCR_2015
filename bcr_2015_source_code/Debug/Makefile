@@ -41,11 +41,9 @@ SUBDIRS :=  \
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-../lib/src/debug.c \
 ../lib/src/hardware_config.c \
 ../lib/src/hardware_feature.c \
 ../lib/src/LedBug.c \
-../lib/src/serial.c \
 ../user/main.c \
 ../user/unit_test/unit_test.c \
 ../user/unit_test/unit_test_main.c
@@ -58,41 +56,33 @@ ASM_SRCS +=
 
 
 OBJS +=  \
-lib/src/debug.o \
 lib/src/hardware_config.o \
 lib/src/hardware_feature.o \
 lib/src/LedBug.o \
-lib/src/serial.o \
 user/main.o \
 user/unit_test/unit_test.o \
 user/unit_test/unit_test_main.o
 
 OBJS_AS_ARGS +=  \
-lib/src/debug.o \
 lib/src/hardware_config.o \
 lib/src/hardware_feature.o \
 lib/src/LedBug.o \
-lib/src/serial.o \
 user/main.o \
 user/unit_test/unit_test.o \
 user/unit_test/unit_test_main.o
 
 C_DEPS +=  \
-lib/src/debug.d \
 lib/src/hardware_config.d \
 lib/src/hardware_feature.d \
 lib/src/LedBug.d \
-lib/src/serial.d \
 user/main.d \
 user/unit_test/unit_test.d \
 user/unit_test/unit_test_main.d
 
 C_DEPS_AS_ARGS +=  \
-lib/src/debug.d \
 lib/src/hardware_config.d \
 lib/src/hardware_feature.d \
 lib/src/LedBug.d \
-lib/src/serial.d \
 user/main.d \
 user/unit_test/unit_test.d \
 user/unit_test/unit_test_main.d
@@ -108,10 +98,6 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
-
-
-
-
 
 
 

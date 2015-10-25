@@ -98,9 +98,6 @@
     <Compile Include="lib\inc\common.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="lib\inc\debug.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="lib\inc\hardware_config.h">
       <SubType>compile</SubType>
     </Compile>
@@ -110,12 +107,6 @@
     <Compile Include="lib\inc\LedBug.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="lib\inc\serial.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="lib\src\debug.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="lib\src\hardware_config.c">
       <SubType>compile</SubType>
     </Compile>
@@ -123,9 +114,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="lib\src\LedBug.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="lib\src\serial.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="user\main.c">

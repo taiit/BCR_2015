@@ -5,7 +5,7 @@
  *  Author: Vo Huu Tai
  */ 
 #include "../inc/hardware_config.h"
-#include "../inc/debug.h"
+//#include "../inc/debug.h"
 
 void vInitProgram(){
 	//disable local interrupt
@@ -24,6 +24,7 @@ void vInitProgram(){
 	//SENSOR_INTIT; //Use ADC
 	ADC_INIT;
 	INT1_INIT;
+	LED7_INIT;
 	
 	//Timer and PWM
 	vInitTimer0();
@@ -31,7 +32,7 @@ void vInitProgram(){
 	vInitTimer2();	
 	
 	//SERIAL
-	v_init_debug_via_uart();
+	//v_init_debug_via_uart();
 	//enable local interrupt
 	sei();
 }
@@ -59,7 +60,7 @@ void vInitTimer1(){
 	TCCR1A = (1 << WGM11) | (1 << COM1A1) | (1 << COM1B1);
 	TCCR1B = (1 << WGM13) | (1 << WGM12) | (1 << CS11);
 	ICR1 = PWM_PERIOD_LEFT_MAX;
-	OCR1A = SERVO_CENTER; //Servo, 1ms <-> 1500 and 2ms <-> 3000
+	//OCR1A = uiGetServoCenter(); //Servo, 1ms <-> 1500 and 2ms <-> 3000
 	OCR1B = 0;//Motor Left
 }
 void vInitTimer2(){
